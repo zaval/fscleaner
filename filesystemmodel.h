@@ -64,7 +64,8 @@ private:
     // QString formatSize(qint64 size) const; // Helper to format size
 
     // --- Member Variables ---
-    TreeItem *rootItem;       // Root of the internal tree structure
+    // TreeItem *rootItem;       // Root of the internal tree structure
+    QSharedPointer<TreeItem> rootItem;       // Root of the internal tree structure
     QSqlDatabase m_db;        // Database connection
 };
 
@@ -82,19 +83,30 @@ public:
     explicit TreeItem(int id, const QString &path, qint64 size, bool isFolder, TreeItem *parent = nullptr)
         : m_id(id), m_path(path), m_size(size), m_isFolder(isFolder), m_parentItem(parent) {}
 
-    ~TreeItem() {
-        qDeleteAll(m_childItems); // Recursively delete children
+    ~TreeItem() = default;
+
+    // ~TreeItem() {
+    //     qDeleteAll(m_childItems); // Recursively delete children
+    // }
+
+    void appendChild(const QSharedPointer<TreeItem>& child) {
+        child->m_parentItem = this;
+        m_childItems.append(child);
     }
 
     // --- Child Management ---
     void appendChild(TreeItem *child) {
-        m_childItems.append(child);
+        child->m_parentItem = this;
+        m_childItems.append(QSharedPointer<TreeItem>(child));
         // child->m_parentItem = sharedFromThis();
         // m_childItems.append(child);
 
     }
 
-    TreeItem *child(int row) {
+    // QSharedPointer<TreeItem> lastChild(int row) {}
+
+    // TreeItem *child(int row) {
+    QSharedPointer<TreeItem> child(int row) {
         if (row < 0 || row >= m_childItems.size())
             return nullptr;
         return m_childItems.at(row);
@@ -135,7 +147,8 @@ private:
     qint64 m_size = 0;
     bool m_isFolder = false;
 
-    QVector<TreeItem*> m_childItems; // Pointers to children
+    // QVector<TreeItem*> m_childItems; // Pointers to children
+    QVector<QSharedPointer<TreeItem>> m_childItems; // Pointers to children
 
 };
 

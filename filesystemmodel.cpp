@@ -10,13 +10,13 @@
 //=============================================================================
 
 FileSystemModel::FileSystemModel(QObject *parent)
-    : QAbstractItemModel(parent), rootItem(new TreeItem()) // Create root item
+    : QAbstractItemModel(parent), rootItem(QSharedPointer<TreeItem>(new TreeItem())) // Create root item
 {
 }
 
 FileSystemModel::~FileSystemModel()
 {
-    delete rootItem; // This will recursively delete all child TreeItems
+    // delete rootItem; // This will recursively delete all child TreeItems
     if (m_db.isOpen()) {
         m_db.close();
     }
@@ -47,7 +47,7 @@ void FileSystemModel::deleteFile(const QString &pathath) {
     query.prepare("DELETE FROM files WHERE path = :path");
     query.bindValue(":path", pathath);
     query.exec();
-    setupModelData();
+    // setupModelData();
 }
 
 
@@ -62,7 +62,7 @@ QModelIndex FileSystemModel::index(int row, int column, const QModelIndex &paren
     if (!parentItem)
         return {};
 
-    TreeItem *childItem = parentItem->child(row); // Get child TreeItem for the row
+    TreeItem *childItem = parentItem->child(row).data(); // Get child TreeItem for the row
     if (childItem)
         // Create an index for the child, storing a pointer to it
         return createIndex(row, column, childItem);
@@ -196,7 +196,6 @@ QHash<int, QByteArray> FileSystemModel::roleNames() const
 }
 
 bool FileSystemModel::removeRows(int row, int count, const QModelIndex &parent) {
-    // return QAbstractItemModel::removeRows(row, count, parent);
     TreeItem *parentItem = getItem(parent);
     if (!parentItem || row < 0 || row + count > parentItem->childCount()) {
         return false;
@@ -205,10 +204,10 @@ bool FileSystemModel::removeRows(int row, int count, const QModelIndex &parent) 
     beginRemoveRows(parent, row, row + count - 1);
 
     for (int i = 0; i < count; ++i) {
-        TreeItem *childToRemove = parentItem->child(row);
+        TreeItem *childToRemove = parentItem->child(row).data();
         if (childToRemove) {
             // Remove from database if needed
-            deleteFile(childToRemove->path());
+            // deleteFile(childToRemove->path());
 
             auto childParent = childToRemove->parentItem();
             while (childParent) {
@@ -216,9 +215,7 @@ bool FileSystemModel::removeRows(int row, int count, const QModelIndex &parent) 
                 childParent = childParent->parentItem();
             }
 
-            // Remove from parent's child list
             parentItem->removeChild(row);
-            // delete childToRemove;
         }
     }
 
@@ -236,8 +233,7 @@ void FileSystemModel::setupModelData()
     beginResetModel(); // Signal that the model is about to change drastically
 
     // Clear existing tree (delete children of root)
-    delete rootItem;
-    rootItem = new TreeItem(); // Recreate the root
+    rootItem = QSharedPointer<TreeItem>( new TreeItem());
 
     if (!m_db.isOpen()) {
         qWarning() << "Database is not open in setupModelData.";
@@ -253,9 +249,8 @@ void FileSystemModel::setupModelData()
         return;
     }
 
-    // Use a hash map for efficient lookup of TreeItems by their database ID
     QHash<int, TreeItem*> itemMap;
-    itemMap.insert(0, rootItem); // Assuming NULL parent ID maps to root
+    itemMap.insert(0, rootItem.get()); // Assuming NULL parent ID maps to root
 
     // --- First Pass: Create all TreeItem objects ---
     while (query.next()) {
@@ -263,40 +258,11 @@ void FileSystemModel::setupModelData()
         QString path = query.value("path").toString();
         qint64 size = query.value("size").toLongLong();
         bool isFolder = query.value("is_folder").toBool();
-        // Parent ID can be NULL in the database, QVariant handles this
         int parentId = query.value("parent").isNull() ? 0 : query.value("parent").toInt();
 
-        // Create the item but don't assign parent yet
-        auto *item = new TreeItem(id, path, size, isFolder, nullptr); // Parent set in next pass
-        itemMap.insert(id, item); // Store item in map using its own ID
-    }
-
-    // --- Second Pass: Link items to their parents ---
-    // Reset query to iterate again (or store results in a list first)
-    query.seek(-1); // Go back to the beginning
-    while (query.next()) {
-        int id = query.value("id").toInt();
-        int parentId = query.value("parent").isNull() ? 0 : query.value("parent").toInt();
-
-        TreeItem *childItem = itemMap.value(id, nullptr);
-        TreeItem *parentItem = itemMap.value(parentId, nullptr);
-
-        if (childItem && parentItem) {
-            // Set the parent pointer in the child
-            childItem->m_parentItem = parentItem; // Need to access private member or add setter
-            // Add the child to the parent's list
-            parentItem->appendChild(childItem);
-        } else if (childItem && parentId != 0) {
-            // Warn if a parent ID exists but the corresponding item wasn't found
-            qWarning() << "Parent item with ID" << parentId << "not found for item ID" << id;
-            // Add orphaned items to the root? Or handle differently?
-            // For now, let's add them to the root
-            childItem->m_parentItem = rootItem;
-            rootItem->appendChild(childItem);
-        } else if (childItem && parentId == 0) {
-            // Item explicitly has no parent (or NULL parent), already handled by map lookup default
-            // It should have been added to the root in the lookup: parentItem = itemMap.value(0, rootItem);
-            // This case is redundant if itemMap.insert(0, rootItem) was done.
+        itemMap[parentId]->appendChild(new TreeItem(id, path, size, isFolder, nullptr));
+        if (isFolder) {
+            itemMap.insert(id, itemMap[parentId]->child(itemMap[parentId]->childCount()-1).data());
         }
     }
 
@@ -315,7 +281,7 @@ TreeItem *FileSystemModel::getItem(const QModelIndex &index) const
             return item;
     }
     // If the index is invalid, it refers to the root item
-    return rootItem;
+    return rootItem.get();
 }
 
 // Helper function to format file sizes

@@ -272,23 +272,25 @@ Item {
         }
     }
 
-    Dialog {
+    MessageDialog {
         id: confirmDeleteDialog
         property int folderIndex: -1
         title: "Delete Folder"
-        standardButtons: Dialog.Yes | Dialog.No
-        implicitWidth: confirmDialogLabel.width + 50
-        // implicitHeight: 150
-        anchors.centerIn: parent
-        modal: true
-        contentItem: Item {
-            anchors.margins: 15
-            Label {
-                id: confirmDialogLabel
-                text: qsTr("Are you sure you want to delete this folder?")
-                anchors.centerIn: parent
-            }
-        }
+        text: qsTr("Are you sure you want to delete this folder?")
+        buttons: MessageDialog.No | MessageDialog.Yes
+        // standardButtons: Dialog.Yes | Dialog.No
+        // implicitWidth: confirmDialogLabel.width + 50
+        // // implicitHeight: 150
+        // anchors.centerIn: parent
+        // modal: true
+        // contentItem: Item {
+        //     anchors.margins: 15
+        //     Label {
+        //         id: confirmDialogLabel
+        //         text: qsTr("Are you sure you want to delete this folder?")
+        //         anchors.centerIn: parent
+        //     }
+        // }
 
         onAccepted: {
             if (confirmDeleteDialog.folderIndex >= 0) {

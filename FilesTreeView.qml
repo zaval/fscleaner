@@ -53,6 +53,7 @@ ColumnLayout {
                             break;
                         case Qt.RightButton:
                             // if (viewDelegate.hasChildren)
+                            treeView.selectionModel.setCurrentIndex(treeView.index(viewDelegate.row, 0), ItemSelectionModel.ClearAndSelect)
                             contextMenu.open();
                             break;
                     }
@@ -64,35 +65,23 @@ ColumnLayout {
                 viewDelegate: viewDelegate
                 confirmDialog: confirmDlg
             }
-            
         }
-
     }
-
 
     UIHelper {
         id: uiHelper
     }
 
-    Dialog {
+    MessageDialog {
         id: confirmDlg
-        anchors.centerIn: parent
-        title: "Delete Folder"
         property string filePath: ""
-        standardButtons: Dialog.Yes | Dialog.No
-        implicitWidth: confirmDialogLabel.width + 50
-        modal: true
-        contentItem: Item {
-            anchors.margins: 15
-            Label {
-                id: confirmDialogLabel
-                text: qsTr("Are you sure you want to delete\n" + confirmDlg.filePath + "?")
-                anchors.centerIn: parent
-            }
-        }
+        title: "Delete Folder"
+        text: qsTr("Are you sure you want to delete\n" + confirmDlg.filePath + "?")
 
+        buttons: MessageDialog.No | MessageDialog.Yes
+        
         onAccepted: {
-            // uiHelper.remove(confirmDlg.filePath)
+            uiHelper.remove(confirmDlg.filePath)
             // root.fsModel.deleteFile(confirmDlg.filePath)
             let modelIndex = treeView.selectionModel.currentIndex
             if (modelIndex.valid) {
