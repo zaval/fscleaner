@@ -24,48 +24,54 @@ pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
         libavutil
 )
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Sql Core Qml QuickControls2 QmlCompiler)
+find_package(Qt6 REQUIRED COMPONENTS Quick Sql Core Qml QuickControls2 QmlCompiler Widgets)
 
 include(FetchContent)
-#set(CMAKE_PREFIX_PATH_BACKUP ${CMAKE_PREFIX_PATH})
-#set(CMAKE_INSTALL_PREFIX_BACKUP ${CMAKE_INSTALL_PREFIX})
-set(APPLE_SUPPRESS_X11_WARNING ON)
-FetchContent_Declare(
-        ECM
-        GIT_REPOSITORY https://invent.kde.org/frameworks/extra-cmake-modules.git
-        GIT_TAG v6.17.0
-        SYSTEM
-)
 
-FetchContent_GetProperties(ECM)
-if(NOT ecm_POPULATED)
-    FetchContent_Populate(ECM)
-    execute_process(
-            COMMAND ${CMAKE_COMMAND}
-            -S ${ecm_SOURCE_DIR}
-            -B ${ecm_SOURCE_DIR}/build
-            -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
-            -DSHARE_INSTALL_DIR=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
-            -DCMAKE_POLICY_DEFAULT_CMP0177=NEW
-            -DBUILD_DOC=OFF
-            -DBUILD_TESTING=OFF
-            RESULT_VARIABLE config_result
-    )
-    execute_process(
-            COMMAND ${CMAKE_COMMAND} --build ${ecm_SOURCE_DIR}/build
-            RESULT_VARIABLE build_result
-    )
-    execute_process(
-            COMMAND ${CMAKE_COMMAND} --install ${ecm_SOURCE_DIR}/build
-            RESULT_VARIABLE install_result
-    )
-endif()
-FetchContent_MakeAvailable(ECM)
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_BINARY_DIR}/ecm_install")
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR}/ecm_install/ECM/modules)
+find_package(ECM 6.13.0 NO_MODULE)
+if(NOT ECM_FOUND)
 
 
-unset(CMAKE_INSTALL_PREFIX)
+    set(APPLE_SUPPRESS_X11_WARNING ON)
+    FetchContent_Declare(
+            ECM
+            GIT_REPOSITORY https://invent.kde.org/frameworks/extra-cmake-modules.git
+            GIT_TAG v6.13.0
+            SYSTEM
+    )
+
+    FetchContent_GetProperties(ECM)
+    if(NOT ecm_POPULATED)
+        FetchContent_Populate(ECM)
+        execute_process(
+                COMMAND ${CMAKE_COMMAND}
+                -S ${ecm_SOURCE_DIR}
+                -B ${ecm_SOURCE_DIR}/build
+                -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
+                -DSHARE_INSTALL_DIR=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
+                -DCMAKE_POLICY_DEFAULT_CMP0177=NEW
+                -DBUILD_DOC=OFF
+                -DBUILD_TESTING=OFF
+                RESULT_VARIABLE config_result
+        )
+        execute_process(
+                COMMAND ${CMAKE_COMMAND} --build ${ecm_SOURCE_DIR}/build
+                RESULT_VARIABLE build_result
+        )
+        execute_process(
+                COMMAND ${CMAKE_COMMAND} --install ${ecm_SOURCE_DIR}/build
+                RESULT_VARIABLE install_result
+        )
+    endif()
+    FetchContent_MakeAvailable(ECM)
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_BINARY_DIR}/ecm_install")
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR}/ecm_install/ECM/modules)
+
+
+    unset(CMAKE_INSTALL_PREFIX)
+else ()
+    set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+endif ()
 
 #set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH_BACKUP})
 #set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX_BACKUP})
@@ -74,7 +80,8 @@ if (APPLE)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/app) # for testing
 endif ()
 
-
+find_package(KF6Archive)
+if(NOT KF6Archive_FOUND)
 
 FetchContent_Declare(
         KArchive
@@ -91,7 +98,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(KArchive)
-
+endif ()
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -171,6 +178,7 @@ qt_add_resources(
         ${ICON_FILES}
 )
 
+if (APPLE OR WINDOWS)
 
 include(ECMAddAppIcon)
 set(
@@ -185,7 +193,7 @@ set(
 )
 
 ecm_add_app_icon(appfsCleaner ICONS ${ICONS} OUTFILE_BASENAME "Appicon")
-
+endif ()
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
@@ -207,10 +215,11 @@ target_link_libraries(appfsCleaner
     PRIVATE
     Qt6::Quick
     Qt6::Core
-     Qt6::Sql
+    Qt6::Sql
     Qt6::Qml
     Qt6::QuickControls2
     Qt6::QmlCompiler
+    Qt6::Widgets
     core
     KF6::Archive
 )
@@ -286,9 +295,11 @@ if(APPLE)
             LIBRARY DESTINATION ${BUNDLE_NAME}.app/Contents/Frameworks
     )
 else()
+    if (DEFINED KF6Archive)
     install(TARGETS KF6Archive
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     )
+    endif ()
 endif()
 
 
@@ -325,6 +336,13 @@ if(APPLE)
 endif()
 
 
+# if(UNIX AND NOT APPLE)
+#    # Skip RPATH modification for Qt QML plugins that don't support it
+#    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
+#    set(CMAKE_SKIP_INSTALL_RPATH TRUE)
+# endif()
+
+if(APPLE)
 qt_generate_deploy_qml_app_script(
         TARGET appfsCleaner
         OUTPUT_SCRIPT deploy_script
@@ -339,6 +357,7 @@ qt_generate_deploy_qml_app_script(
 )
 install(SCRIPT ${deploy_script})
 
+endif()
 
 set(CPACK_PACKAGE_NAME fscleaner)
 if(APPLE)

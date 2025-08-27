@@ -16,9 +16,11 @@ mkdir 32x32@2 || true
 mkdir 32x32 || true
 mkdir 16x16 || true
 mkdir 20x20 || true
+mkdir 24x24 || true
 
-magick "$1"  -resize 64x64 32x32@2/$file_name
-magick "$1"  -resize 32x32 32x32/$file_name
-magick "$1"  -resize 16x16 16x16/$file_name
-magick "$1"  -resize 20x20 20x20/$file_name
-magick "$1"  -resize 256x256 256x256/$file_name
+convert "$1"  -resize 64x64 32x32@2/$file_name
+convert "$1"  -resize 32x32 32x32/$file_name
+convert "$1"  -resize 16x16 16x16/$file_name
+convert "$1"  -resize 20x20 20x20/$file_name
+convert "$1"  -resize 256x256 256x256/$file_name
+convert "$1"  -resize 24x24 24x24/$file_name

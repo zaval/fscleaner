@@ -4,6 +4,7 @@
 
 #include "fshelper.h"
 
+#include <cstring>
 #include <filesystem>
 #include <fstab.h>
 #include <iostream>

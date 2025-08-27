@@ -1,7 +1,7 @@
 // #include "filesystemmodel.h"
 // #include "iconimageprovider.h"
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     // QQuickStyle::setStyle("Fusion");
     // qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     QIcon::setThemeName("dataicontheme");
     app.setOrganizationName("fscleaner");
     app.setOrganizationDomain("zaval.me");

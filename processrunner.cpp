@@ -79,7 +79,16 @@ void ProcessRunner::processFolder(const QString &folder, bool ignoreMounts)
 {
 
     // const auto folder = current executable file path
+#ifdef Q_OS_LINUX
+    auto fsScan = QStandardPaths::findExecutable("fsscan");
+    if (fsScan.isEmpty())
+    {
+        fsScan = QCoreApplication::applicationDirPath() + "/fsscan/fsscan";
+    }
+#else
     const auto fsScan = QCoreApplication::applicationDirPath() + "/fsscan";
+#endif
+
     auto args = QStringList() << "-d" << m_dbPath << folder;
     if (ignoreMounts) {
         args << "-i";

@@ -188,7 +188,7 @@ Item {
                         Layout.fillWidth: true
                     }
                     ToolButton {
-                        icon.name: "trash"
+                        icon.name: "trash-empty"
                         onClicked: {
                             confirmDeleteDialog.folderIndex = delegateItem.index;
                             confirmDeleteDialog.open()

@@ -18,7 +18,7 @@ ApplicationWindow {
             spacing: 10
 
             ToolButton {
-                icon.name: "back"
+                icon.name: "go-previous"
                 icon.color: window.palette.text
                 visible: stack.depth > 1
                 onClicked: {
@@ -30,7 +30,7 @@ ApplicationWindow {
                 Layout.fillWidth: true
             }
             ToolButton {
-                icon.name: "settings"
+                icon.name: "configure"
                 icon.color: window.palette.text
                 onClicked: {
                     stack.push(settingsPage)
