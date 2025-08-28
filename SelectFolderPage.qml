@@ -27,7 +27,6 @@ ColumnLayout {
     }
 
     Component.onCompleted: {
-        console.log("completed")
         loadFolders()
     }
     

@@ -112,6 +112,11 @@ set_source_files_properties(AppSettings.qml PROPERTIES
         QT_QML_SINGLETON_TYPE TRUE
 )
 
+set(PLATFORM_QML_FILES)
+if(UNIX AND NOT APPLE)
+    list(APPEND PLATFORM_QML_FILES "+linux/SettingsAddFolderDialog.qml")
+endif ()
+
 qt_add_qml_module(appfsCleaner
     URI fsCleaner
     VERSION 1.0
@@ -130,6 +135,8 @@ qt_add_qml_module(appfsCleaner
         AppSettings.qml
         FileInfo.qml
         ArchiveViewerWindow.qml
+        SettingsAddFolderDialog.qml
+        ${PLATFORM_QML_FILES}
     SOURCES
         iconimageprovider.h
         iconimageprovider.cpp
