@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 
 # Settings
 
-#if (APPLE)
-#    set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/app) # for testing
-#endif ()
-
 project(fsCleaner VERSION 1.0.0 LANGUAGES CXX)
 cmake_policy(SET CMP0169 OLD)
 
@@ -14,6 +10,10 @@ set(CMAKE_CXX_STANDARD 20)
 include(FeatureSummary)
 
 # Dependencies
+
+if(APPLE)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+endif ()
 
 find_package(SQLite3 REQUIRED)
 
@@ -28,11 +28,11 @@ find_package(Qt6 REQUIRED COMPONENTS Quick Sql Core Qml QuickControls2 QmlCompil
 
 include(FetchContent)
 
+set(APPLE_SUPPRESS_X11_WARNING ON)
+
 find_package(ECM 6.13.0 NO_MODULE)
 if(NOT ECM_FOUND)
 
-
-    set(APPLE_SUPPRESS_X11_WARNING ON)
     FetchContent_Declare(
             ECM
             GIT_REPOSITORY https://invent.kde.org/frameworks/extra-cmake-modules.git
@@ -52,6 +52,7 @@ if(NOT ECM_FOUND)
                 -DCMAKE_POLICY_DEFAULT_CMP0177=NEW
                 -DBUILD_DOC=OFF
                 -DBUILD_TESTING=OFF
+                -DCMAKE_POLICY_DEFAULT_CMP0175=OLD
                 RESULT_VARIABLE config_result
         )
         execute_process(
@@ -73,20 +74,18 @@ else ()
     set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 endif ()
 
-#set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH_BACKUP})
-#set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX_BACKUP})
 
 if (APPLE)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/app) # for testing
 endif ()
 
-find_package(KF6Archive)
+find_package(KF6Archive 6.13.0 QUIET)
 if(NOT KF6Archive_FOUND)
 
 FetchContent_Declare(
         KArchive
         GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
-        GIT_TAG v6.17.0
+        GIT_TAG v6.13.0
         CMAKE_ARGS
             -DECM_DIR=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
             -DBUILD_TESTING=OFF
@@ -94,6 +93,7 @@ FetchContent_Declare(
 #            -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
             -DCMAKE_MACOSX_RPATH=ON
             -DCMAKE_INSTALL_NAME_DIR=@rpath
+            -DCMAKE_POLICY_DEFAULT_CMP0175=OLD
 
 )
 
@@ -153,6 +153,8 @@ qt_add_qml_module(appfsCleaner
 #add_subdirectory(ui)
 add_subdirectory(fsscan)
 add_subdirectory(core)
+
+add_dependencies(appfsCleaner fsscan)
 
 # Resources
 
@@ -313,7 +315,7 @@ if(APPLE)
 
     # Execute the script to get dependency list
     execute_process(
-            COMMAND python3 ${CMAKE_BINARY_DIR}/find_libav_deps.py
+            COMMAND ${Python3_EXECUTABLE} ${CMAKE_BINARY_DIR}/find_libav_deps.py
             OUTPUT_VARIABLE LIBAV_DEPS_REGEXES
             OUTPUT_STRIP_TRAILING_WHITESPACE
     )

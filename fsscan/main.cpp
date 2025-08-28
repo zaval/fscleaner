@@ -242,7 +242,6 @@ int main(int argc, char* argv[]) {
                 records.emplace_back(parent_tree_entry->children.back().get());
             }
 
-
             for (const auto&[rowid, path, size, parent, parent_tree_entry] : files) {
                 parent_tree_entry->add_child(
                     std::make_unique<TreeEntry>(rowid, path.string(), size, false, parent_tree_entry)
@@ -257,19 +256,14 @@ int main(int argc, char* argv[]) {
     save_to_db(db, rootTreeEntry.get());
     db.commit_transaction();
 
-
     const auto end = std::chrono::high_resolution_clock::now();
     const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Finished in " << duration.count() << " ms\n";
 
-    // std::cout << "calculate folders sizes" << std::endl;
-    // db.calculate_folders_size();
-    // std::cout << "calculated" << std::endl;
-
     try {
         db.save_to_file(options.database_path.value_or("filesystem_stats.db"));
         // db.save_to_file("filesystem_stats.db");
-        std::cout << "Database saved to filesystem_stats.db\n";
+        std::cout << "Sorting data" << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Error saving database: " << e.what() << '\n';
     }

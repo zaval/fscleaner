@@ -32,6 +32,7 @@ ApplicationWindow {
             ToolButton {
                 icon.name: "configure"
                 icon.color: window.palette.text
+                visible: stack.currentItem.existingFolders === undefined
                 onClicked: {
                     stack.push(settingsPage)
                 }

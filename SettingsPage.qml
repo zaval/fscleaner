@@ -18,8 +18,8 @@ Item {
 
 
     function saveFolders() {
-        var folders = []
-        for (var i = 0; i < existingFolders.count; i++){
+        let folders = [];
+        for (let i = 0; i < existingFolders.count; i++){
             folders.push(JSON.stringify(existingFolders.get(i)))
         }
         AppSettings.folders = folders
@@ -189,6 +189,7 @@ Item {
                     }
                     ToolButton {
                         icon.name: "trash-empty"
+                        icon.color: root.palette.text
                         onClicked: {
                             confirmDeleteDialog.folderIndex = delegateItem.index;
                             confirmDeleteDialog.open()
