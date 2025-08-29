@@ -187,22 +187,27 @@ qt_add_resources(
         ${ICON_FILES}
 )
 
-if (APPLE OR WINDOWS)
-
-include(ECMAddAppIcon)
 set(
         ICONS
-        resources/icons/16-icon.png
-        resources/icons/32-icon.png
-        resources/icons/64-icon.png
-        resources/icons/128-icon.png
-        resources/icons/256-icon.png
-        resources/icons/512-icon.png
-        resources/icons/1024-icon.png
+        resources/icons/16-apps-me.zaval.fscleaner.png
+        resources/icons/32-apps-me.zaval.fscleaner.png
+        resources/icons/64-apps-me.zaval.fscleaner.png
+        resources/icons/128-apps-me.zaval.fscleaner.png
+        resources/icons/256-apps-me.zaval.fscleaner.png
+        resources/icons/512-apps-me.zaval.fscleaner.png
+#        resources/icons/1024-apps-me.zaval.fscleaner.png
 )
+if (APPLE OR WINDOWS)
+    list(APPEND ICONS resources/icons/1024-apps-me.zaval.fscleaner.png)
+endif()
 
-ecm_add_app_icon(appfsCleaner ICONS ${ICONS} OUTFILE_BASENAME "Appicon")
-endif ()
+#if (APPLE OR WINDOWS)
+
+    include(ECMAddAppIcon)
+
+
+    ecm_add_app_icon(appfsCleaner ICONS ${ICONS} OUTFILE_BASENAME "Appicon")
+#endif ()
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
@@ -293,10 +298,10 @@ install(TARGETS appfsCleaner
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-if(UNIX AND NOT APPLE)
+#if(UNIX AND NOT APPLE)
     include(ECMInstallIcons)
     ecm_install_icons( ICONS ${ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons )
-endif()
+#endif()
 
 if(APPLE)
     set(BUNDLE_NAME $<TARGET_FILE_NAME:appfsCleaner>)
@@ -367,6 +372,10 @@ qt_generate_deploy_qml_app_script(
 install(SCRIPT ${deploy_script})
 
 endif()
+
+if(UNIX AND NOT APPLE)
+install(PROGRAMS me.zaval.fsCleaner.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+endif ()
 
 set(CPACK_PACKAGE_NAME fscleaner)
 if(APPLE)

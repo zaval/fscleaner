@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=fsCleaner
+GenericName=File System Cleaner
+Comment=Clean up temporary and unnecessary files to free disk space
+TryExec=fsCleaner
+Exec=fsCleaner %F
+Icon=me.zaval.fscleaner
+Terminal=false
+Categories=Utility;System;
+Keywords=clean;cleanup;files;cache;temporary;tmp;disk;space;remove;
+StartupNotify=true
+StartupWMClass=fsCleaner
