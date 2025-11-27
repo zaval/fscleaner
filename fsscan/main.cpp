@@ -52,6 +52,25 @@ struct WalkResult {
 std::atomic<uint64_t> current_rowid = 1;
 std::atomic<uint64_t> inserted_count = 1;
 
+#ifdef __APPLE__
+// Function to get the actual size on disk
+long long get_disk_size(const char* path) {
+    struct stat st;
+
+    if (stat(path, &st) == -1) {
+        std::cerr << "Error getting file stats: " << std::strerror(errno) << std::endl;
+        return -1; // Return -1 to indicate an error
+    }
+
+    // st_blocks is the number of 512-byte blocks allocated
+    // To get the size in bytes, multiply by 512
+    long long size_on_disk = static_cast<long long>(st.st_blocks) * 512;
+
+    return size_on_disk;
+}
+#endif
+
+
 std::uintmax_t get_file_size_for_long_path(const std::string& path) {
 
     const int fd = open(path.c_str(),  O_NOFOLLOW);
@@ -133,6 +152,10 @@ WalkResult walk(const fs::path &path, TreeEntry *parent, const std::unordered_se
 
                 std::uintmax_t file_size;
 
+#ifdef __APPLE__
+                file_size = get_disk_size(entry_path.string().c_str());
+#else
+
                 if (entry_path.string().length() >= PATH_MAX) {
                     file_size = get_file_size_for_long_path(entry_path.string());
                 } else {
@@ -141,6 +164,8 @@ WalkResult walk(const fs::path &path, TreeEntry *parent, const std::unordered_se
                         file_size = fs::file_size(entry_path);
                     }
                 }
+#endif
+
                 result.files.emplace_back(current_rowid.fetch_add(1), entry_path, file_size, parent_id, parent);
             }
 
