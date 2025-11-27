@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 # Settings
 
-project(fsCleaner VERSION 1.0.0 LANGUAGES CXX)
+project(fsCleaner VERSION 1.1.0 LANGUAGES CXX)
 cmake_policy(SET CMP0169 OLD)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -82,22 +82,25 @@ endif ()
 find_package(KF6Archive 6.13.0 QUIET)
 if(NOT KF6Archive_FOUND)
 
-FetchContent_Declare(
-        KArchive
-        GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
-        GIT_TAG v6.13.0
-        CMAKE_ARGS
-            -DECM_DIR=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
-            -DBUILD_TESTING=OFF
-            -DBUILD_DOC=OFF
-#            -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-            -DCMAKE_MACOSX_RPATH=ON
-            -DCMAKE_INSTALL_NAME_DIR=@rpath
-            -DCMAKE_POLICY_DEFAULT_CMP0175=OLD
+    set(KARCHIVE_PATCH_FILE "${CMAKE_CURRENT_SOURCE_DIR}/patches/karchive.patch")
 
-)
+    FetchContent_Declare(
+            KArchive
+            GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
+            GIT_TAG v6.13.0
+            PATCH_COMMAND git apply "${KARCHIVE_PATCH_FILE}"
+            CMAKE_ARGS
+                -DECM_DIR=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
+                -DBUILD_TESTING=OFF
+                -DBUILD_DOC=OFF
+    #            -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+                -DCMAKE_MACOSX_RPATH=ON
+                -DCMAKE_INSTALL_NAME_DIR=@rpath
+                -DCMAKE_POLICY_DEFAULT_CMP0175=OLD
 
-FetchContent_MakeAvailable(KArchive)
+    )
+
+    FetchContent_MakeAvailable(KArchive)
 endif ()
 
 qt_standard_project_setup(REQUIRES 6.8)
@@ -106,6 +109,7 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(appfsCleaner
     main.cpp
+
 )
 
 set_source_files_properties(AppSettings.qml PROPERTIES
@@ -155,6 +159,8 @@ qt_add_qml_module(appfsCleaner
         filetypeicon.cpp
         archivemodel.cpp
         archivemodel.h
+        confirmationdialog.cpp
+        confirmationdialog.h
 )
 
 #add_subdirectory(ui)

@@ -12,19 +12,6 @@
 int main(int argc, char *argv[])
 {
 
-    // QMap<QString, QString> fsMap{};
-
-    // auto fs = getfsent();
-
-    // do {
-    //     QString fsSpec = QString::fromLocal8Bit(fs->fs_spec);
-    //     QString fsFile = QString::fromLocal8Bit(fs->fs_file);
-    //     qDebug() << fsSpec << fsFile;
-    //     fsMap.insert(fsSpec, fsFile);
-    //     fs = getfsent();
-    // } while (fs != nullptr);
-
-
     // QQuickStyle::setStyle("Fusion");
     // qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
     QApplication app(argc, argv);

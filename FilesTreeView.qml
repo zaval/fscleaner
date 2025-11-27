@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs
 
 
 ColumnLayout {
@@ -72,14 +71,14 @@ ColumnLayout {
         id: uiHelper
     }
 
-    MessageDialog {
+    ConfirmationDialog {
         id: confirmDlg
         property string filePath: ""
-        title: "Delete Folder"
-        text: qsTr("Are you sure you want to delete\n" + confirmDlg.filePath + "?")
+        text: "Delete Folder"
+        informativeText: qsTr("Are you sure you want to delete\n" + confirmDlg.filePath + "?")
 
-        buttons: MessageDialog.No | MessageDialog.Yes
-        
+        // buttons: MessageDialog.No | MessageDialog.Yes
+
         onAccepted: {
             uiHelper.remove(confirmDlg.filePath)
             // root.fsModel.deleteFile(confirmDlg.filePath)
