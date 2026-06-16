@@ -156,8 +156,9 @@ On Linux, you can build and test fsCleaner in a Flatpak sandbox using the provid
 For example, to install a typical Qt/KDE runtime (adjust if your manifest uses different IDs):
 
 ```bash
-flatpak install flathub org.kde.Platform/6.9
-flatpak install flathub org.kde.Sdk/6.9
+flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub org.kde.Platform//6.9
+flatpak install flathub org.kde.Sdk//6.9
 ```
 
 ### Building the Flatpak
@@ -169,9 +170,11 @@ mkdir -p flatpak-build
 
 flatpak-builder \
   --force-clean \
+  --user \
   --install-deps-from=flathub \
+  --repo=repo \
   flatpak-build \
-  me.zaval.fsclean.yaml
+  me.zaval.fsclean.yaml 
 ```
 
 This will:
@@ -179,6 +182,18 @@ This will:
 - Use `me.zaval.fsclean.yaml` to drive the build (fetch dependencies, run CMake, etc.).
 - Produce a Flatpak repo in `flatpak-build`.
 - Generate a Flatpak for the application (and optionally install it into a local repository if configured in the manifest).
+
+### Generate the Standalone File
+
+```bash
+flatpak build-bundle my-local-repo fscleaner.flatpak me.zaval.fscleaner
+```
+
+###  Install the Standalone File
+
+```bash
+flatpak install --bundle fscleaner.flatpak
+```
 
 ### Installing and running the Flatpak locally
 
