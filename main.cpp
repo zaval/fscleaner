@@ -6,30 +6,39 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickStyle>
+#include <QFontDatabase>
 
+#include "iconimageprovider.h"
 // #include <fstab.h>
 
 int main(int argc, char *argv[])
 {
-
-    // QQuickStyle::setStyle("Fusion");
-    // qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
     QApplication app(argc, argv);
     QIcon::setThemeName("dataicontheme");
     app.setOrganizationName("fscleaner");
     app.setOrganizationDomain("zaval.me");
     app.setApplicationName("FSCleaner");
 
+    QIcon::setThemeSearchPaths(QStringList() << ":/icons");
+    QIcon::setThemeName("dataicontheme");
 
-    // FileSystemModel fileSystemModel; // Create instance of our model
+    if (const int fontId = QFontDatabase::addApplicationFont(":/fonts/JetBrainsMono.ttf"); fontId != -1) {
+        qDebug() << "JetBrainsMono.ttf loaded";
+    }
+    if (const int fontId = QFontDatabase::addApplicationFont(":/fonts/Inter.ttf"); fontId != -1) {
+        qDebug() << "Inter.ttf loaded";
+        const QString familyName = QFontDatabase::applicationFontFamilies(fontId).at(0);
+
+        // Overwrite the global app default font for all Qt Quick components
+        app.setFont(QFont(familyName, 14, 500));
+    } else {
+        qDebug() << "Can't load font";
+    }
 
     QQmlApplicationEngine engine;
+    engine.addImportPath("qrc:/qt/qml/");
 
-    // engine.rootContext()->setContextProperty("fileSystemModel", &fileSystemModel);
-    // engine.addImageProvider(QLatin1String("themedicons"), new IconImageProvider);
-
-
-
+    engine.addImageProvider(QLatin1String("theme"), new IconImageProvider);
 
     QObject::connect(
         &engine,

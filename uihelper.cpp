@@ -7,6 +7,11 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QFileInfo>
+#include "version.h"
+
+QString UIHelper::version() const {
+    return FSCleanerVersion::string;
+}
 
 QString UIHelper::homeDirectory() const { return QStandardPaths::standardLocations(QStandardPaths::HomeLocation)[0]; }
 
@@ -25,6 +30,11 @@ QString UIHelper::cacheDirectory() const {
 QString UIHelper::getFolderName(const QString &path) const {
     const QDir dir(path);
     return dir.dirName();
+}
+
+QString UIHelper::getFileName(const QString &path) const {
+    const QFileInfo fileInfo(path);
+    return fileInfo.fileName();
 }
 
 bool UIHelper::remove(const QString &path) {

@@ -8,6 +8,8 @@ add_library(core
         mediafileinfo.h
         mediainfoextractor.cpp
         mediainfoextractor.h
+        cpumonitor.cpp
+        cpumonitor.h
 )
 
 target_include_directories(core PRIVATE ${LIBAV_INCLUDE_DIRS})

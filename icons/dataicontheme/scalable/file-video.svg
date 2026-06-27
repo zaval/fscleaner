@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+  <defs>
+    <!-- Ambient Soft Shadows -->
+    <filter id="shadow-main" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1E2A55" flood-opacity="0.22" />
+      <feDropShadow dx="0" dy="0.75" stdDeviation="0.75" flood-color="#1E2A55" flood-opacity="0.12" />
+    </filter>
+    
+    <filter id="shadow-small" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#1E2A55" flood-opacity="0.18" />
+    </filter>
+
+    <!-- Base Page Gradients -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A5C4F7" />
+      <stop offset="100%" stop-color="#6081E6" />
+    </linearGradient>
+    
+    <linearGradient id="inner-high" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65" />
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    
+    <linearGradient id="inner-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#2D4396" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#2D4396" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Corner Fold Gradients -->
+    <linearGradient id="fld-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD6E8" />
+      <stop offset="100%" stop-color="#FF8EB4" />
+    </linearGradient>
+    
+    <linearGradient id="fld-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#B23B68" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#B23B68" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Obsidian Screen Gradients -->
+    <linearGradient id="scrn-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C3E50" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+
+    <linearGradient id="scrn-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Golden Play Button Gradients -->
+    <linearGradient id="play-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F" />
+      <stop offset="100%" stop-color="#FFA000" />
+    </linearGradient>
+
+    <linearGradient id="play-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#B78103" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#B78103" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Main Document Base Group -->
+  <g filter="url(#shadow-main)">
+    <!-- Base Plate -->
+    <path d="M 4 5.5 C 4 3.6 5.6 2 7.5 2 H 12 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 V 18.5 C 20 20.4 18.4 22 16.5 22 H 7.5 C 5.6 22 4 20.4 4 18.5 Z" fill="url(#bg-grad)" />
+    <!-- 3D Overlays -->
+    <path d="M 4 5.5 C 4 3.6 5.6 2 7.5 2 H 12 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 V 18.5 C 20 20.4 18.4 22 16.5 22 H 7.5 C 5.6 22 4 20.4 4 18.5 Z" fill="url(#inner-high)" />
+    <path d="M 4 5.5 C 4 3.6 5.6 2 7.5 2 H 12 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 V 18.5 C 20 20.4 18.4 22 16.5 22 H 7.5 C 5.6 22 4 20.4 4 18.5 Z" fill="url(#inner-shd)" />
+  </g>
+
+  <!-- Folded Dog-Ear Corner -->
+  <g filter="url(#shadow-small)">
+    <path d="M 12 2 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 H 16.5 C 14 10 12 8 12 5.5 V 2 Z" fill="url(#fld-grad)" />
+    <path d="M 12 2 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 H 16.5 C 14 10 12 8 12 5.5 V 2 Z" fill="url(#inner-high)" />
+    <path d="M 12 2 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 H 16.5 C 14 10 12 8 12 5.5 V 2 Z" fill="url(#fld-shd)" />
+  </g>
+
+  <!-- Symmetrical Film Perforations (Recessed/Debossed) -->
+  <g pointer-events="none">
+    <!-- Left Column -->
+    <rect x="5.5" y="7.0" width="1.2" height="1.2" rx="0.3" fill="#1E293B" opacity="0.35" />
+    <rect x="5.5" y="8.1" width="1.2" height="0.2" rx="0.1" fill="#FFFFFF" opacity="0.4" />
+    
+    <rect x="5.5" y="10.5" width="1.2" height="1.2" rx="0.3" fill="#1E293B" opacity="0.35" />
+    <rect x="5.5" y="11.6" width="1.2" height="0.2" rx="0.1" fill="#FFFFFF" opacity="0.4" />
+    
+    <rect x="5.5" y="14.0" width="1.2" height="1.2" rx="0.3" fill="#1E293B" opacity="0.35" />
+    <rect x="5.5" y="15.1" width="1.2" height="0.2" rx="0.1" fill="#FFFFFF" opacity="0.4" />
+    
+    <rect x="5.5" y="17.5" width="1.2" height="1.2" rx="0.3" fill="#1E293B" opacity="0.35" />
+    <rect x="5.5" y="18.6" width="1.2" height="0.2" rx="0.1" fill="#FFFFFF" opacity="0.4" />
+
+    <!-- Right Column (Symmetrical, offset below the top-right fold) -->
+    <rect x="17.3" y="10.5" width="1.2" height="1.2" rx="0.3" fill="#1E293B" opacity="0.35" />
+    <rect x="17.3" y="11.6" width="1.2" height="0.2" rx="0.1" fill="#FFFFFF" opacity="0.4" />
+    
+    <rect x="17.3" y="14.0" width="1.2" height="1.2" rx="0.3" fill="#1E293B" opacity="0.35" />
+    <rect x="17.3" y="15.1" width="1.2" height="0.2" rx="0.1" fill="#FFFFFF" opacity="0.4" />
+    
+    <rect x="17.3" y="17.5" width="1.2" height="1.2" rx="0.3" fill="#1E293B" opacity="0.35" />
+    <rect x="17.3" y="18.6" width="1.2" height="0.2" rx="0.1" fill="#FFFFFF" opacity="0.4" />
+  </g>
+
+  <!-- Puffy Glossy Screen -->
+  <g filter="url(#shadow-small)">
+    <!-- Screen Base -->
+    <rect x="7" y="10" width="10" height="7.5" rx="1.5" fill="url(#scrn-grad)" />
+    <!-- 3D Overlays -->
+    <rect x="7" y="10" width="10" height="7.5" rx="1.5" fill="url(#inner-high)" opacity="0.3" />
+    <rect x="7" y="10" width="10" height="7.5" rx="1.5" fill="url(#scrn-shd)" />
+  </g>
+
+  <!-- Puffy Gold Play Button -->
+  <g filter="url(#shadow-small)">
+    <!-- Play Triangle -->
+    <path d="M 11 12.2 L 11 15.3 L 13.7 13.75 Z" fill="url(#play-grad)" stroke="url(#play-grad)" stroke-width="1.5" stroke-linejoin="round" />
+    <path d="M 11 12.2 L 11 15.3 L 13.7 13.75 Z" fill="url(#play-shd)" stroke="url(#play-shd)" stroke-width="1.5" stroke-linejoin="round" />
+  </g>
+
+  <!-- Specular Highlights Layer -->
+  <g pointer-events="none">
+    <!-- Play Button Speculars -->
+    <line x1="11.1" y1="12.5" x2="11.1" y2="15.0" stroke="#FFFFFF" stroke-width="0.5" stroke-linecap="round" opacity="0.6" />
+    <circle cx="11.4" cy="12.4" r="0.25" fill="#FFFFFF" opacity="0.8" />
+  </g>
+</svg>

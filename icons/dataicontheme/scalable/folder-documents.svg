@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+  <defs>
+    <!-- Ambient Soft Shadows -->
+    <filter id="shadow-main" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1E2A55" flood-opacity="0.22" />
+      <feDropShadow dx="0" dy="0.75" stdDeviation="0.75" flood-color="#1E2A55" flood-opacity="0.12" />
+    </filter>
+    
+    <filter id="shadow-small" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#1E2A55" flood-opacity="0.18" />
+    </filter>
+
+    <!-- Folder Plate Gradients -->
+    <linearGradient id="folder-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F" />
+      <stop offset="100%" stop-color="#FF9100" />
+    </linearGradient>
+
+    <linearGradient id="folder-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#B76200" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#B76200" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- 3 Document Gradients (Periwinkle, Mint, and Pink) -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A5C4F7" />
+      <stop offset="100%" stop-color="#6081E6" />
+    </linearGradient>
+
+    <linearGradient id="mint-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A7F3D0" />
+      <stop offset="100%" stop-color="#4ECE9D" />
+    </linearGradient>
+
+    <linearGradient id="mint-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#1E7554" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#1E7554" stop-opacity="0" />
+    </linearGradient>
+
+    <linearGradient id="fld-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD6E8" />
+      <stop offset="100%" stop-color="#FF8EB4" />
+    </linearGradient>
+
+    <!-- Mini Document Emblem Gradient -->
+    <linearGradient id="doc-sym-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+
+    <!-- Gloss Highlight Overlay -->
+    <linearGradient id="inner-high" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65" />
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Folder Back Plate Group (With Tab) -->
+  <g filter="url(#shadow-main)">
+    <!-- Back Plate Base -->
+    <path d="M 3 8 C 3 6.3 4.3 5 6 5 H 9.5 C 10.3 5 11.0 5.4 11.4 6.1 L 12.6 8.0 C 13.0 8.6 13.7 9 14.4 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-grad)" />
+    <!-- 3D Overlays -->
+    <path d="M 3 8 C 3 6.3 4.3 5 6 5 H 9.5 C 10.3 5 11.0 5.4 11.4 6.1 L 12.6 8.0 C 13.0 8.6 13.7 9 14.4 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#inner-high)" />
+    <path d="M 3 8 C 3 6.3 4.3 5 6 5 H 9.5 C 10.3 5 11.0 5.4 11.4 6.1 L 12.6 8.0 C 13.0 8.6 13.7 9 14.4 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-shd)" />
+  </g>
+
+  <!-- 2. Back Peaking Document (Soft Pink, Tilted Left) -->
+  <g transform="rotate(-6, 10, 10)" filter="url(#shadow-small)">
+    <!-- Document Base -->
+    <rect x="5.5" y="4.0" width="10" height="10" rx="1.8" fill="url(#fld-grad)" />
+    <!-- 3D Overlays -->
+    <rect x="5.5" y="4.0" width="10" height="10" rx="1.8" fill="url(#inner-high)" />
+    
+    <!-- Mini Folder Corner Fold (Back Doc) -->
+    <path d="M 12.5 4.0 L 15.5 7.0 H 13.5 C 12.5 7.0 12.5 6.0 12.5 5.0 Z" fill="#FFFFFF" opacity="0.45" />
+    <path d="M 12.5 4.0 L 15.5 7.0 H 13.5 C 12.5 7.0 12.5 6.0 12.5 5.0 Z" fill="url(#inner-high)" opacity="0.3" />
+  </g>
+
+  <!-- 3. Middle Peaking Document (Mint Green, Upright 0°) -->
+  <g filter="url(#shadow-small)">
+    <!-- Document Base -->
+    <rect x="7.0" y="3.5" width="10" height="10" rx="1.8" fill="url(#mint-grad)" />
+    <!-- 3D Overlays -->
+    <rect x="7.0" y="3.5" width="10" height="10" rx="1.8" fill="url(#inner-high)" />
+    <rect x="7.0" y="3.5" width="10" height="10" rx="1.8" fill="url(#mint-shd)" />
+    
+    <!-- Mini Folder Corner Fold (Middle Doc) -->
+    <path d="M 14.0 3.5 L 17.0 6.5 H 15.2 C 14.0 6.5 14.0 5.3 14.0 4.3 Z" fill="#FFFFFF" opacity="0.5" />
+    <path d="M 14.0 3.5 L 17.0 6.5 H 15.2 C 14.0 6.5 14.0 5.3 14.0 4.3 Z" fill="url(#inner-high)" opacity="0.35" />
+  </g>
+
+  <!-- 4. Front Peaking Document (Periwinkle, Tilted Right) -->
+  <g transform="rotate(8, 13, 10)" filter="url(#shadow-small)">
+    <!-- Document Base -->
+    <rect x="7.5" y="4.5" width="10" height="10" rx="1.8" fill="url(#bg-grad)" />
+    <!-- 3D Overlays -->
+    <rect x="7.5" y="4.5" width="10" height="10" rx="1.8" fill="url(#inner-high)" />
+    
+    <!-- Mini Folder Corner Fold (Front Doc) -->
+    <path d="M 14.5 4.5 L 17.5 7.5 H 15.5 C 14.5 7.5 14.5 6.5 14.5 5.5 Z" fill="url(#fld-grad)" />
+    <path d="M 14.5 4.5 L 17.5 7.5 H 15.5 C 14.5 7.5 14.5 6.5 14.5 5.5 Z" fill="url(#inner-high)" opacity="0.5" />
+  </g>
+
+  <!-- 5. Folder Front Pocket Group -->
+  <g filter="url(#shadow-small)">
+    <!-- Front Pocket Base -->
+    <path d="M 3 12 C 3 10.3 4.3 9 6 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-grad)" />
+    <!-- 3D Overlays -->
+    <path d="M 3 12 C 3 10.3 4.3 9 6 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#inner-high)" />
+    <path d="M 3 12 C 3 10.3 4.3 9 6 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-shd)" />
+  </g>
+
+  <!-- 6. Puffy Embossed Document Emblem on Surface -->
+  <g filter="url(#shadow-small)">
+    <!-- Page Base -->
+    <rect x="10.0" y="12.2" width="4.0" height="5.2" rx="0.9" fill="url(#doc-sym-grad)" />
+    <rect x="10.0" y="12.2" width="4.0" height="5.2" rx="0.9" fill="url(#inner-high)" />
+
+    <!-- Tiny Emblem Corner Fold -->
+    <path d="M 12.8 12.2 L 14.0 13.4 H 13.4 C 12.8 13.4 12.8 12.8 12.8 12.8 Z" fill="url(#fld-grad)" />
+    <path d="M 12.8 12.2 L 14.0 13.4 H 13.4 C 12.8 13.4 12.8 12.8 12.8 12.8 Z" fill="url(#inner-high)" opacity="0.4" />
+
+    <!-- Puffy Lined Text Lines on Emblem -->
+    <rect x="10.9" y="14.4" width="2.2" height="0.5" rx="0.25" fill="#6081E6" />
+    <rect x="10.9" y="15.5" width="1.5" height="0.5" rx="0.25" fill="#6081E6" />
+  </g>
+
+  <!-- 7. Specular Highlights Layer (No drop shadow for maximum crispness) -->
+  <g pointer-events="none">
+    <!-- Back Tab Highlight Curve -->
+    <path d="M 4.5 7.2 C 4.5 6.2 5.5 5.5 6.5 5.5 H 9" fill="none" stroke="#FFFFFF" stroke-width="0.5" stroke-linecap="round" opacity="0.65" />
+    
+    <!-- Front Pocket Top Lip Highlight -->
+    <path d="M 5 9.5 H 19" stroke="#FFFFFF" stroke-width="0.5" stroke-linecap="round" opacity="0.6" />
+
+    <!-- Mini Page Emblem Specular Gloss Dot -->
+    <circle cx="10.4" cy="12.6" r="0.15" fill="#FFFFFF" opacity="0.8" />
+  </g>
+</svg>

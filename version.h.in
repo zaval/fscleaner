@@ -1,0 +1,20 @@
+#ifndef VERSION_H
+#define VERSION_H
+
+#include <QString>
+
+// Define the raw string literal from CMake
+#define PROJECT_VERSION_RAW "@CMAKE_PROJECT_VERSION@"
+#define PROJECT_VERSION_MAJOR @CMAKE_PROJECT_VERSION_MAJOR@
+#define PROJECT_VERSION_MINOR @CMAKE_PROJECT_VERSION_MINOR@
+#define PROJECT_VERSION_PATCH @CMAKE_PROJECT_VERSION_PATCH@
+
+// Provide a global or namespaced QString option
+namespace FSCleanerVersion {
+    inline const QString string = QStringLiteral(PROJECT_VERSION_RAW);
+    inline const int major = PROJECT_VERSION_MAJOR;
+    inline const int minor = PROJECT_VERSION_MINOR;
+    inline const int patch = PROJECT_VERSION_PATCH;
+}
+
+#endif // VERSION_H

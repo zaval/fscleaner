@@ -2,12 +2,18 @@ cmake_minimum_required(VERSION 3.16)
 
 # Settings
 
-project(fsCleaner VERSION 1.1.0 LANGUAGES CXX)
+project(fsCleaner VERSION 2.0.0 LANGUAGES CXX)
 cmake_policy(SET CMP0169 OLD)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 include(FeatureSummary)
+
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/version.h.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/generated/version.h"
+    @ONLY
+)
 
 # Dependencies
 
@@ -71,7 +77,8 @@ if(NOT ECM_FOUND)
 
     unset(CMAKE_INSTALL_PREFIX)
 else ()
-    set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+#    set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+    list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 endif ()
 
 
@@ -88,7 +95,7 @@ if(NOT KF6Archive_FOUND)
             KArchive
             GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
             GIT_TAG v6.13.0
-            PATCH_COMMAND git apply "${KARCHIVE_PATCH_FILE}"
+            PATCH_COMMAND git apply "${KARCHIVE_PATCH_FILE}" || true
             CMAKE_ARGS
                 -DECM_DIR=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
                 -DBUILD_TESTING=OFF
@@ -109,76 +116,45 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(appfsCleaner
     main.cpp
-
 )
+target_include_directories(appfsCleaner PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
 set_source_files_properties(AppSettings.qml PROPERTIES
         QT_QML_SINGLETON_TYPE TRUE
 )
 
-set(PLATFORM_QML_FILES)
-if(UNIX AND NOT APPLE)
-    list(APPEND PLATFORM_QML_FILES "+linux/SettingsAddFolderDialog.qml")
-endif ()
+#set(PLATFORM_QML_FILES)
+#if(UNIX AND NOT APPLE)
+#    list(APPEND PLATFORM_QML_FILES "+linux/SettingsAddFolderDialog.qml")
+#endif ()
 
 qt_add_qml_module(appfsCleaner
     URI fsCleaner
     VERSION 1.0
     QML_FILES
         Main.qml
-
-        # ui
-
-        FilesTreeView.qml
-        FilesTreeMenu.qml
-        FilesTreeHeader.qml
-        SettingsPage.qml
-        SelectFolderPage.qml
-        SelectFolderButton.qml
-        FoldersTreeViewDelegate.qml
         AppSettings.qml
-        FileInfo.qml
-        ArchiveViewerWindow.qml
-        SettingsAddFolderDialog.qml
-        ${PLATFORM_QML_FILES}
     SOURCES
         iconimageprovider.h
         iconimageprovider.cpp
-
-        # ui
-
-        filesystemmodel.h
-        filesystemmodel.cpp
-        processrunner.h
-        processrunner.cpp
-        filemetadata.h
-        filemetadata.cpp
         uihelper.h
         uihelper.cpp
-        filetypeicon.h
-        filetypeicon.cpp
-        archivemodel.cpp
-        archivemodel.h
-        confirmationdialog.cpp
-        confirmationdialog.h
 )
 
-#add_subdirectory(ui)
 add_subdirectory(fsscan)
 add_subdirectory(core)
+add_subdirectory(fscstyle)
+add_subdirectory(uicomponents)
 
 add_dependencies(appfsCleaner fsscan)
 
 # Resources
 
-file(GLOB_RECURSE ICON_FILES_ABS "icons/dataicontheme/*x*/*.png")
-
-set(ICON_FILES)
-
-foreach(file ${ICON_FILES_ABS})
-    file(RELATIVE_PATH rel_file ${CMAKE_CURRENT_SOURCE_DIR} ${file})
-    list(APPEND ICON_FILES ${rel_file})
-endforeach()
+file(GLOB_RECURSE ICON_FILES
+        CONFIGURE_DEPENDS
+        RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+        "icons/dataicontheme/scalable/*.svg"
+)
 
 list(APPEND ICON_FILES
         "icons/dataicontheme/index.theme"
@@ -207,13 +183,9 @@ if (APPLE OR WINDOWS)
     list(APPEND ICONS resources/icons/1024-apps-me.zaval.fscleaner.png)
 endif()
 
-#if (APPLE OR WINDOWS)
+include(ECMAddAppIcon)
+ecm_add_app_icon(appfsCleaner ICONS ${ICONS} OUTFILE_BASENAME "Appicon")
 
-    include(ECMAddAppIcon)
-
-
-    ecm_add_app_icon(appfsCleaner ICONS ${ICONS} OUTFILE_BASENAME "Appicon")
-#endif ()
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
@@ -241,12 +213,13 @@ target_link_libraries(appfsCleaner
     Qt6::QmlCompiler
     Qt6::Widgets
     core
+    fscstyle
+    uicomponents
     KF6::Archive
 )
 
 if(APPLE)
     add_custom_command(TARGET appfsCleaner POST_BUILD
-#    add_custom_command(TARGET fsscan POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         $<TARGET_FILE:fsscan>
         $<TARGET_BUNDLE_CONTENT_DIR:appfsCleaner>/MacOS/

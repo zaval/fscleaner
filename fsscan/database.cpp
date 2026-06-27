@@ -120,6 +120,13 @@ CREATE TABLE files (
         sqlite3_free(err_msg);
         throw std::runtime_error("Failed to create table: " + error);
     }
+
+    const auto create_index_sql = "create index if not exists files_parent_idx on files(parent);";
+    if (sqlite3_exec(db, create_index_sql, nullptr, nullptr, &err_msg) != SQLITE_OK) {
+        const std::string error = err_msg;
+        sqlite3_free(err_msg);
+        throw std::runtime_error("Failed to create index: " + error);
+    }
 }
 
 void Database::insert_file(const uint64_t &id, const std::string &path, const std::uintmax_t &size, const int64_t &parent) const {

@@ -6,7 +6,7 @@ IconImageProvider::IconImageProvider() : QQuickImageProvider(QQuickImageProvider
 
 QPixmap IconImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    QIcon icon = QIcon::fromTheme(id);
+    const QIcon icon = QIcon::fromTheme(id);
     if (icon.isNull()) {
         qWarning() << "IconImageProvider: Could not find icon" << id;
         // Return a default/error pixmap?

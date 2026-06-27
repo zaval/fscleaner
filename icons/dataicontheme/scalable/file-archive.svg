@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+  <defs>
+    <!-- Ambient Soft Shadows -->
+    <filter id="shadow-main" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1E2A55" flood-opacity="0.22" />
+      <feDropShadow dx="0" dy="0.75" stdDeviation="0.75" flood-color="#1E2A55" flood-opacity="0.12" />
+    </filter>
+    
+    <filter id="shadow-small" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#1E2A55" flood-opacity="0.18" />
+    </filter>
+
+    <!-- Base Page Gradients -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A5C4F7" />
+      <stop offset="100%" stop-color="#6081E6" />
+    </linearGradient>
+    
+    <linearGradient id="inner-high" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65" />
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+    
+    <linearGradient id="inner-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#2D4396" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#2D4396" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Corner Fold Gradients -->
+    <linearGradient id="fld-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD6E8" />
+      <stop offset="100%" stop-color="#FF8EB4" />
+    </linearGradient>
+    
+    <linearGradient id="fld-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#B23B68" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#B23B68" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Silver Zipper Slider & Teeth Gradients -->
+    <linearGradient id="slider-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F1F5F9" />
+      <stop offset="100%" stop-color="#94A3B8" />
+    </linearGradient>
+
+    <linearGradient id="slider-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#475569" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#475569" stop-opacity="0" />
+    </linearGradient>
+
+    <linearGradient id="teeth-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#CBD5E1" />
+    </linearGradient>
+
+    <!-- Neon Teal Pull-Tab Gradients -->
+    <linearGradient id="tab-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF" />
+      <stop offset="100%" stop-color="#0097A7" />
+    </linearGradient>
+
+    <linearGradient id="tab-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#006064" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#006064" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Main Document Base Group -->
+  <g filter="url(#shadow-main)">
+    <!-- Base Plate -->
+    <path d="M 4 5.5 C 4 3.6 5.6 2 7.5 2 H 12 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 V 18.5 C 20 20.4 18.4 22 16.5 22 H 7.5 C 5.6 22 4 20.4 4 18.5 Z" fill="url(#bg-grad)" />
+    <!-- 3D Overlays -->
+    <path d="M 4 5.5 C 4 3.6 5.6 2 7.5 2 H 12 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 V 18.5 C 20 20.4 18.4 22 16.5 22 H 7.5 C 5.6 22 4 20.4 4 18.5 Z" fill="url(#inner-high)" />
+    <path d="M 4 5.5 C 4 3.6 5.6 2 7.5 2 H 12 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 V 18.5 C 20 20.4 18.4 22 16.5 22 H 7.5 C 5.6 22 4 20.4 4 18.5 Z" fill="url(#inner-shd)" />
+  </g>
+
+  <!-- Folded Dog-Ear Corner -->
+  <g filter="url(#shadow-small)">
+    <path d="M 12 2 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 H 16.5 C 14 10 12 8 12 5.5 V 2 Z" fill="url(#fld-grad)" />
+    <path d="M 12 2 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 H 16.5 C 14 10 12 8 12 5.5 V 2 Z" fill="url(#inner-high)" />
+    <path d="M 12 2 C 12.8 2 13.6 2.3 14.2 2.9 L 19.1 7.8 C 19.7 8.4 20 9.2 20 10 H 16.5 C 14 10 12 8 12 5.5 V 2 Z" fill="url(#fld-shd)" />
+  </g>
+
+  <!-- Tactile "Unzipped" Slit and Track -->
+  <g>
+    <!-- Top Slit Wedge -->
+    <path d="M 12 5.5 C 11.2 5.5 10.2 3.5 10.2 2 H 13.8 C 13.8 3.5 12.8 5.5 12 5.5 Z" fill="#1E293B" opacity="0.3" />
+    <!-- Zipper Track Slit -->
+    <rect x="11.25" y="5.5" width="1.5" height="15" rx="0.75" fill="#1A237E" opacity="0.35" />
+  </g>
+
+  <!-- Interlocking Puffy Zipper Teeth -->
+  <g filter="url(#shadow-small)">
+    <!-- Left Alternating Teeth -->
+    <rect x="10.2" y="8.5" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="10.2" y="11.1" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="10.2" y="13.7" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="10.2" y="16.3" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="10.2" y="18.9" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+
+    <!-- Right Alternating Teeth (Offset horizontally/vertically to interlock) -->
+    <rect x="11.8" y="9.8" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="11.8" y="12.4" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="11.8" y="15.0" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="11.8" y="17.6" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+    <rect x="11.8" y="20.2" width="2.0" height="1.0" rx="0.5" fill="url(#teeth-grad)" />
+  </g>
+
+  <!-- Puffy Zipper Slider Body -->
+  <g filter="url(#shadow-small)">
+    <path d="M 10 7.2 C 10 6.4 10.7 5.7 11.5 5.7 H 12.5 C 13.3 5.7 14 6.4 14 7.2 L 13.5 9.7 C 13.5 10.3 13.0 10.7 12.5 10.7 H 11.5 C 11.0 10.7 10.5 10.3 10.5 9.7 Z" fill="url(#slider-grad)" />
+    <!-- Slider Inner Highlight/Shade -->
+    <path d="M 10 7.2 C 10 6.4 10.7 5.7 11.5 5.7 H 12.5 C 13.3 5.7 14 6.4 14 7.2 L 13.5 9.7 C 13.5 10.3 13.0 10.7 12.5 10.7 H 11.5 C 11.0 10.7 10.5 10.3 10.5 9.7 Z" fill="url(#inner-high)" />
+    <path d="M 10 7.2 C 10 6.4 10.7 5.7 11.5 5.7 H 12.5 C 13.3 5.7 14 6.4 14 7.2 L 13.5 9.7 C 13.5 10.3 13.0 10.7 12.5 10.7 H 11.5 C 11.0 10.7 10.5 10.3 10.5 9.7 Z" fill="url(#slider-shd)" />
+  </g>
+
+  <!-- Puffy Cyan Pull-Tab -->
+  <g filter="url(#shadow-small)">
+    <!-- Base Tab -->
+    <rect x="10.75" y="9.5" width="2.5" height="6.5" rx="1.25" fill="url(#tab-grad)" />
+    <!-- 3D Overlays -->
+    <rect x="10.75" y="9.5" width="2.5" height="6.5" rx="1.25" fill="url(#inner-high)" />
+    <rect x="10.75" y="9.5" width="2.5" height="6.5" rx="1.25" fill="url(#tab-shd)" />
+  </g>
+
+  <!-- Specular Highlights Layer -->
+  <g pointer-events="none">
+    <!-- Slider Left Specular Curve -->
+    <path d="M 10.4 7.0 C 10.4 6.5 10.7 6.1 11.5 6.1" stroke="#FFFFFF" stroke-width="0.35" stroke-linecap="round" fill="none" opacity="0.65" />
+    
+    <!-- Pull-Tab Specular Highlight -->
+    <rect x="11.1" y="10.0" width="0.4" height="4.5" rx="0.2" fill="#FFFFFF" opacity="0.55" />
+    
+    <!-- Tab Connection Hinge Hole (Exposing dark slider beneath) -->
+    <circle cx="12" cy="11.2" r="0.5" fill="#334155" />
+  </g>
+</svg>

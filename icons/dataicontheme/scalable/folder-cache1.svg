@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="100%" height="100%">
+  <defs>
+    <!-- Ambient Soft Shadows -->
+    <filter id="shadow-main" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#1E2A55" flood-opacity="0.22" />
+      <feDropShadow dx="0" dy="0.75" stdDeviation="0.75" flood-color="#1E2A55" flood-opacity="0.12" />
+    </filter>
+    
+    <filter id="shadow-small" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#1E2A55" flood-opacity="0.18" />
+    </filter>
+
+    <!-- Folder Plate Gradients -->
+    <linearGradient id="folder-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD54F" />
+      <stop offset="100%" stop-color="#FF9100" />
+    </linearGradient>
+
+    <linearGradient id="folder-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#B76200" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#B76200" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Peaking Document Gradients (Periwinkle & Coral) -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A5C4F7" />
+      <stop offset="100%" stop-color="#6081E6" />
+    </linearGradient>
+
+    <linearGradient id="fld-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD6E8" />
+      <stop offset="100%" stop-color="#FF8EB4" />
+    </linearGradient>
+
+    <!-- Obsidian Badge Gradients -->
+    <linearGradient id="scrn-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C3E50" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+
+    <linearGradient id="scrn-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Golden Bolt Gradients -->
+    <linearGradient id="play-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFEA00" />
+      <stop offset="100%" stop-color="#FFA000" />
+    </linearGradient>
+
+    <linearGradient id="play-shd" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#B78103" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#B78103" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Gloss Highlight Overlay -->
+    <linearGradient id="inner-high" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65" />
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Folder Back Plate Group (With Tab) -->
+  <g filter="url(#shadow-main)">
+    <!-- Back Plate Base -->
+    <path d="M 3 8 C 3 6.3 4.3 5 6 5 H 9.5 C 10.3 5 11.0 5.4 11.4 6.1 L 12.6 8.0 C 13.0 8.6 13.7 9 14.4 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-grad)" />
+    <!-- 3D Overlays -->
+    <path d="M 3 8 C 3 6.3 4.3 5 6 5 H 9.5 C 10.3 5 11.0 5.4 11.4 6.1 L 12.6 8.0 C 13.0 8.6 13.7 9 14.4 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#inner-high)" />
+    <path d="M 3 8 C 3 6.3 4.3 5 6 5 H 9.5 C 10.3 5 11.0 5.4 11.4 6.1 L 12.6 8.0 C 13.0 8.6 13.7 9 14.4 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-shd)" />
+  </g>
+
+  <!-- 2. Peaking Document Group (Tilted & Puffy) -->
+  <g transform="rotate(6, 11, 10)" filter="url(#shadow-small)">
+    <!-- Document Base -->
+    <rect x="6.5" y="4.5" width="10" height="10" rx="1.8" fill="url(#bg-grad)" />
+    <!-- 3D Overlays -->
+    <rect x="6.5" y="4.5" width="10" height="10" rx="1.8" fill="url(#inner-high)" />
+    
+    <!-- Mini Folder Corner Fold -->
+    <path d="M 13.5 4.5 L 16.5 7.5 H 14.5 C 13.5 7.5 13.5 6.5 13.5 5.5 Z" fill="url(#fld-grad)" />
+    <path d="M 13.5 4.5 L 16.5 7.5 H 14.5 C 13.5 7.5 13.5 6.5 13.5 5.5 Z" fill="url(#inner-high)" opacity="0.5" />
+  </g>
+
+  <!-- 3. Folder Front Pocket Group -->
+  <g filter="url(#shadow-small)">
+    <!-- Front Pocket Base -->
+    <path d="M 3 12 C 3 10.3 4.3 9 6 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-grad)" />
+    <!-- 3D Overlays -->
+    <path d="M 3 12 C 3 10.3 4.3 9 6 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#inner-high)" />
+    <path d="M 3 12 C 3 10.3 4.3 9 6 9 H 18 C 19.7 9 21 10.3 21 12 V 18 C 21 19.7 19.7 21 18 21 H 6 C 4.3 21 3 19.7 3 18 Z" fill="url(#folder-shd)" />
+  </g>
+
+  <!-- 4. Puffy Obsidian Cache Badge -->
+  <g filter="url(#shadow-small)">
+    <!-- Badge Base -->
+    <circle cx="12" cy="15" r="3.2" fill="url(#scrn-grad)" />
+    <!-- 3D Overlays -->
+    <circle cx="12" cy="15" r="3.2" fill="url(#inner-high)" opacity="0.3" />
+    <circle cx="12" cy="15" r="3.2" fill="url(#scrn-shd)" />
+  </g>
+
+  <!-- 5. Puffy Gold Lightning Bolt -->
+  <g filter="url(#shadow-small)">
+    <!-- Bolt Base Shape -->
+    <path d="M 12.6 12.5 L 10.3 15.2 H 12.0 L 11.0 17.8 L 13.7 14.8 H 12.0 Z" fill="url(#play-grad)" stroke="url(#play-grad)" stroke-width="0.8" stroke-linejoin="round" />
+    <!-- 3D Shade Overlay -->
+    <path d="M 12.6 12.5 L 10.3 15.2 H 12.0 L 11.0 17.8 L 13.7 14.8 H 12.0 Z" fill="url(#play-shd)" stroke="url(#play-shd)" stroke-width="0.8" stroke-linejoin="round" />
+  </g>
+
+  <!-- 6. Specular Highlights Layer (No drop shadow for maximum crispness) -->
+  <g pointer-events="none">
+    <!-- Back Tab Highlight Curve -->
+    <path d="M 4.5 7.2 C 4.5 6.2 5.5 5.5 6.5 5.5 H 9" fill="none" stroke="#FFFFFF" stroke-width="0.5" stroke-linecap="round" opacity="0.65" />
+    
+    <!-- Front Pocket Top Lip Highlight -->
+    <path d="M 5 9.5 H 19" stroke="#FFFFFF" stroke-width="0.5" stroke-linecap="round" opacity="0.6" />
+
+    <!-- Obsidian Badge Top-Left Crescent Highlight -->
+    <path d="M 9.5 13.5 A 3.2 3.2 0 0 1 14.5 12.5" fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-linecap="round" opacity="0.4" />
+
+    <!-- Lightning Bolt Specular Gloss -->
+    <circle cx="12.1" cy="13.2" r="0.22" fill="#FFFFFF" opacity="0.85" />
+    <line x1="12.2" y1="13.5" x2="11.2" y2="14.7" stroke="#FFFFFF" stroke-width="0.35" stroke-linecap="round" opacity="0.5" />
+  </g>
+</svg>

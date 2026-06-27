@@ -103,3 +103,4 @@ CMakeLists.txt.user*
 
 *_qmlcache.qrc
 .idea
+.DS_Store
