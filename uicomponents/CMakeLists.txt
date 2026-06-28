@@ -1,4 +1,4 @@
-qt_add_library(uicomponents)
+qt_add_library(uicomponents STATIC)
 
 #set_target_properties(uicomponents PROPERTIES
 #        QT_QMLCACHEGEN_ARGUMENTS "--verbose"

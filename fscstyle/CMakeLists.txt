@@ -1,4 +1,4 @@
-qt_add_library(fscstyle)
+qt_add_library(fscstyle STATIC)
 
 set_source_files_properties(Theme.qml PROPERTIES
         QT_QML_SINGLETON_TYPE TRUE

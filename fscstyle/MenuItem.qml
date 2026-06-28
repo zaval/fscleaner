@@ -5,8 +5,6 @@
 import QtQuick
 import QtQuick.Templates as T
 import QtQuick.Controls.impl
-import QtQuick.NativeStyle as NativeStyle
-// import QtQuick.Controls.macOS.impl
 
 T.MenuItem {
     id: control
@@ -57,10 +55,10 @@ T.MenuItem {
         fillMode: Image.Pad
     }
 
-    indicator: NativeStyle.DefaultCheckBox {
-        // id: control
-        readonly property Item __focusFrameTarget: indicator
-        readonly property Item __focusFrameStyleItem: indicator
+    indicator: CheckBox {
+        checked: control.checked
+        width: 14
+        height: 14
         x: control.mirrored ? control.width - width - control.rightPadding : control.leftPadding
         y: control.topPadding + (control.availableHeight - height) / 2
         visible: control.checkable
