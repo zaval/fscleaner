@@ -186,13 +186,13 @@ This will:
 ### Generate the Standalone File
 
 ```bash
-flatpak build-bundle repo fscleaner.flatpak me.zaval.fscleaner
+flatpak build-bundle repo fscleaner.flatpak me.zaval.fscleaner --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 ```
 
 ###  Install the Standalone File
 
 ```bash
-flatpak install --bundle fscleaner.flatpak
+flatpak install --user fscleaner.flatpak
 ```
 
 ### Installing and running the Flatpak locally

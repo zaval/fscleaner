@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=fsCleaner
+Name=appfsCleaner
 GenericName=File System Cleaner
 Comment=Clean up temporary and unnecessary files to free disk space
 TryExec=fsCleaner

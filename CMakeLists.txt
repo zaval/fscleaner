@@ -370,7 +370,7 @@ install(SCRIPT ${deploy_script})
 endif()
 
 if(UNIX AND NOT APPLE)
-install(PROGRAMS me.zaval.fsCleaner.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
+install(PROGRAMS me.zaval.fscleaner.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
 endif ()
 
 set(CPACK_PACKAGE_NAME fscleaner)
