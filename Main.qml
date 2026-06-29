@@ -8,12 +8,7 @@ ApplicationWindow {
     visible: true
     width: 1024
     height: 768
-    title: "MainTest"
-
-    // background: Rectangle {
-    //     anchors.fill: parent
-    //     color: Theme.surface
-    // }
+    title: qsTr("FS Cleaner")
 
     MainWindow {
         anchors.fill: parent

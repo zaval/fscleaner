@@ -9,7 +9,7 @@
 // #include <QtQmlIntegration>
 #include <QtQmlIntegration/qqmlintegration.h>
 
-#include "../core/cpumonitor.h"
+#include "core/cpumonitor.h"
 
 class ProcessRunner : public QObject
 {

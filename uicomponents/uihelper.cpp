@@ -1,7 +1,3 @@
-//
-// Created by Dmytrii Zavalnyi on 10.08.2025..
-//
-
 #include "uihelper.h"
 
 #include <QDir>

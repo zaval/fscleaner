@@ -29,8 +29,13 @@ int main(int argc, char *argv[])
         qDebug() << "Inter.ttf loaded";
         const QString familyName = QFontDatabase::applicationFontFamilies(fontId).at(0);
 
+#ifdef Q_OS_MAC
         // Overwrite the global app default font for all Qt Quick components
         app.setFont(QFont(familyName, 14, 500));
+#else
+        app.setFont(QFont(familyName, 12, 500));
+#endif
+
     } else {
         qDebug() << "Can't load font";
     }

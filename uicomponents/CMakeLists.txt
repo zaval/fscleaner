@@ -31,6 +31,7 @@ qt_add_qml_module(uicomponents
         SearchTextField.qml
         FileViewerText.qml
         FullTextArea.qml
+        FileViewerImage.qml
     SOURCES
         messagebox.cpp
         messagebox.h
@@ -52,9 +53,15 @@ qt_add_qml_module(uicomponents
         processrunner.h
         filemetadata.h
         filemetadata.cpp
+        uihelper.cpp
+        uihelper.h
+        exiv2metadata.cpp
+        exiv2metadata.h
     DEPENDENCIES
             QtQuick
 )
+target_include_directories(uicomponents PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/../generated" "${CMAKE_CURRENT_SOURCE_DIR}/..")
+
 
 target_link_libraries(uicomponents PRIVATE
     Qt6::Widgets
@@ -64,7 +71,10 @@ target_link_libraries(uicomponents PRIVATE
     Qt6::Sql
     KF6::Archive
     core
+    Exiv2::exiv2lib
 )
+
+target_include_directories(uicomponents PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/..")
 
 if(APPLE)
     set(BUNDLE_NAME $<TARGET_FILE_NAME:appfsCleaner>)

@@ -2,7 +2,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include "../core/helper.h"
+#include "core/helper.h"
 
 QString FSModel::createFilterTableQuery = R"(
 CREATE table filtered_files AS

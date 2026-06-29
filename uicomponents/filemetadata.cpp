@@ -1,13 +1,13 @@
 #include "filemetadata.h"
 
-#include "../core/hashcalculator.h"
-#include "../core/helper.h"
+#include "core/hashcalculator.h"
+#include "core/helper.h"
 
 #include <QIcon>
 #include <QFileInfo>
 #include <QThread>
 
-#include "../core/mediainfoextractor.h"
+#include "core/mediainfoextractor.h"
 
 const QStringList FileMetaData::s_archive_mimetypes = {
     "application/zip",

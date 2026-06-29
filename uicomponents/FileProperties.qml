@@ -87,6 +87,10 @@ ScrollView {
                         let window = fileViewerText.createObject(null, {filePath: root.filePath})
                         window.show()
                     }
+                    if (fmd.isImage){
+                        let window = demoImage.createObject(null, {filePath: root.filePath})
+                        window.show()
+                    }
 
                 }
             }
@@ -104,6 +108,7 @@ ScrollView {
 
                 onClicked: {
                     root.deleteRequested(root.itemId, root.filePath);
+
                 }
             }
         }
@@ -325,5 +330,10 @@ ScrollView {
 
         FileViewerText {
         }
+    }
+
+    Component {
+        id: demoImage
+        FileViewerImage {}
     }
 }

@@ -110,6 +110,25 @@ if(NOT KF6Archive_FOUND)
     FetchContent_MakeAvailable(KArchive)
 endif ()
 
+
+find_package(exiv2 QUIET)
+if(NOT exiv2_FOUND)
+    message(STATUS "exiv2 not found, downloading from git")
+    FetchContent_Declare(
+            exiv2
+            GIT_REPOSITORY https://github.com/Exiv2/exiv2.git
+            GIT_TAG v0.28.8
+    )
+    block(PROPAGATE)
+        set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "Build exiv2lib as a static library")
+        set(EXIV2_ENABLE_INIH OFF CACHE INTERNAL "Don't Use inih library")
+
+        FetchContent_MakeAvailable(exiv2)
+    endblock()
+
+
+endif()
+
 qt_standard_project_setup(REQUIRES 6.8)
 
 # executable
@@ -137,8 +156,6 @@ qt_add_qml_module(appfsCleaner
     SOURCES
         iconimageprovider.h
         iconimageprovider.cpp
-        uihelper.h
-        uihelper.cpp
 )
 
 add_subdirectory(fsscan)
