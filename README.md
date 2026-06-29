@@ -157,8 +157,8 @@ For example, to install a typical Qt/KDE runtime (adjust if your manifest uses d
 
 ```bash
 flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub org.kde.Platform//6.9
-flatpak install flathub org.kde.Sdk//6.9
+flatpak install flathub org.kde.Platform//6.10
+flatpak install flathub org.kde.Sdk//6.10
 ```
 
 ### Building the Flatpak
@@ -186,7 +186,7 @@ This will:
 ### Generate the Standalone File
 
 ```bash
-flatpak build-bundle my-local-repo fscleaner.flatpak me.zaval.fscleaner
+flatpak build-bundle repo fscleaner.flatpak me.zaval.fscleaner
 ```
 
 ###  Install the Standalone File

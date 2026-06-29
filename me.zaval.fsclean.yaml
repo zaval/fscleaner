@@ -1,6 +1,6 @@
 id: me.zaval.fscleaner
 runtime: org.kde.Platform
-runtime-version: '6.9'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 command: appfsCleaner
 finish-args:
@@ -10,6 +10,15 @@ finish-args:
   - --device=dri
   - --filesystem=host
 modules:
+  - name: libexiv2
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DBUILD_SHARED_LIBS=ON
+      - -DEXIV2_ENABLE_INIH=OFF
+    sources:
+      - type: git
+        url: https://github.com/Exiv2/exiv2.git
+        tag: v0.28.8
   - name: fscleaner
     buildsystem: cmake-ninja
     config-opts:

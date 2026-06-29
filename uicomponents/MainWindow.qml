@@ -16,7 +16,7 @@ Rectangle {
         model: [
             LeftMenuItem { title: "Dashboard"; icon: "dashboard" },
             LeftMenuItem { title: "ScanHistory"; icon: "history" },
-            LeftMenuItem { title: "Settings"; icon: "settings"},
+            LeftMenuItem { title: "Settings"; icon: "settings"}
             // LeftMenuItem { title: "Scan result TEST"; icon: "settings"}
         ]
     }
