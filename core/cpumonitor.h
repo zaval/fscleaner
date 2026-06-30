@@ -1,6 +1,7 @@
 #ifndef FSCLEANER_CPUMONITOR_H
 #define FSCLEANER_CPUMONITOR_H
 #include <QObject>
+#include <QRegularExpression>
 #include <QTimer>
 
 
@@ -30,6 +31,7 @@ private slots:
 
 private:
     QTimer *m_timer;
+    QRegularExpression m_regexpSeparator;
 
 #if defined(Q_OS_LINUX)
     CpuTicks getLinuxCpuTicks();

@@ -68,6 +68,7 @@ Item {
                     RowLayout {
                         spacing: 10
                         anchors.fill: parent
+                        clip: true
 
                         Item {
                             implicitWidth: 24
@@ -79,6 +80,7 @@ Item {
                             }
                         }
                         ColumnLayout {
+                            id: labelsColumn
                             spacing: 5
 
                             Label {
@@ -89,6 +91,10 @@ Item {
                             Label {
                                 text: cardDelegate.modelData.path
                                 typography: "mono-data"
+                                // width: labelsColumn.width
+                                // wrapMode: Text.WrapAnywhere
+                                elide: Text.ElideMiddle
+                                clip: true
 
                             }
                         }

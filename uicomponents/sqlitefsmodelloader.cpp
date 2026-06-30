@@ -132,8 +132,7 @@ void SqliteFSModelLoader::loadChildren(FSTreeItem *parentItem) {
 }
 
 void SqliteFSModelLoader::deleteItem(FSTreeItem *item) {
-    // TODO: Make real delete
-    qDebug() << "FAKE Delete item:" << item->path;
+    QFile::remove(item->path);
 }
 
 void SqliteFSModelLoader::initialize(const QString &path) {

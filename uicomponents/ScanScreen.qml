@@ -215,31 +215,13 @@ Page {
                         visible: processRunner.isRunning
 
                         spacing: 0
-                        // Label {
-                        //     text: "Processing "
-                        //     typography: "body-sm"
-                        // }
                         Label {
                             text: processRunner.logMessageLine
                             font.weight: Font.Bold
                             typography: "body-sm"
                         }
-                        // Label {
-                        //     text: " files"
-                        //     font.weight: Font.Bold
-                        //     typography: "body-sm"
-                        // }
                         Item {
                             Layout.fillWidth: true
-                        }
-                        Label {
-                            text: "234"
-                            type: "primary"
-                            typography: "mono-data"
-                        }
-                        Label {
-                            text: " files/sec"
-                            typography: "mono-data"
                         }
                     }
                 }

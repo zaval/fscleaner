@@ -150,6 +150,11 @@ ApplicationWindow {
                     visible: exiv2.exposureMode !== 0
                 }
                 MetadataRow {
+                    name: "Flash"
+                    value: "On"
+                    visible: exiv2.flash
+                }
+                MetadataRow {
                     name: "Latitude"
                     value: exiv2.gpsLatitude ? exiv2.gpsLatitude : "N/A"
                     visible: exiv2.gpsLatitude !== ""
@@ -172,6 +177,7 @@ ApplicationWindow {
                     }
 
                     Button {
+                        visible: exiv2.gpsLatitudeDecimal !== 92 && exiv2.gpsLongitudeDecimal !== 182
                         type: "outlined"
                         text: qsTr("Show on map")
                         onClicked: {

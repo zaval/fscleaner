@@ -3,7 +3,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include  <QJsonDocument>
 #include <QJsonObject>
 
 #include "exiv2/exif.hpp"
@@ -15,7 +14,7 @@ Exiv2ParserThread::Exiv2ParserThread(const QString &filePath, QObject *parent):
 
 void Exiv2ParserThread::run() {
     try {
-        auto image = Exiv2::ImageFactory::open(m_filePath.toStdString());
+        const auto image = Exiv2::ImageFactory::open(m_filePath.toStdString());
         image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
         if (exifData.empty()) {
@@ -32,8 +31,8 @@ void Exiv2ParserThread::run() {
 Exiv2Metadata::Exiv2Metadata(QObject *parent) :
     QObject(parent),
     m_gpsAltitude(0),
-    m_gpsLongitudeDecimal(0),
-    m_gpsLatitudeDecimal(0),
+    m_gpsLongitudeDecimal(182),
+    m_gpsLatitudeDecimal(92),
     m_whiteBalance(0),
     m_exposureMode(0),
     m_pixelYDimension(0),
@@ -341,6 +340,22 @@ void Exiv2Metadata::setFilePath(const QString &newFilePath) {
     m_filePath = newFilePath;
     emit filePathChanged();
 
+    setGpsAltitude(0);
+    setGpsLongitudeDecimal(182);
+    setGpsLatitudeDecimal(92);
+    setWhiteBalance(0);
+    setExposureMode(0);
+    setPixelYDimension(0);
+    setPixelXDimension(0);
+    setFocalLength(0);
+    setFlash(false);
+    setSubjectDistance(0);
+    setApertureValue(0);
+    setShutterSpeed(0);
+    setFNumber(0);
+    setExposureTime(0);
+    setResolution(0);
+
     const auto exiv2Thread = new Exiv2ParserThread(m_filePath);
     connect(exiv2Thread, &Exiv2ParserThread::finished, exiv2Thread, &Exiv2Metadata::deleteLater);
     connect(exiv2Thread, &Exiv2ParserThread::exiv2Loaded, this, &Exiv2Metadata::exiv2Loaded);
@@ -395,10 +410,10 @@ void Exiv2Metadata::loadAddress(const qreal lat, const qreal lon) {
         QJsonObject jsonObj = jsonDoc.object();
         setGpsAddress(jsonObj["display_name"].toString());
     });
-    connect(reply, &QNetworkReply::errorOccurred, this, [reply](QNetworkReply::NetworkError error) {
+    connect(reply, &QNetworkReply::errorOccurred, this, [](QNetworkReply::NetworkError error) {
         qDebug() << "Error loading address: " << error;
     });
-    connect(reply, &QNetworkReply::sslErrors, this, [reply](const QList<QSslError> &errors) {
+    connect(reply, &QNetworkReply::sslErrors, this, [](const QList<QSslError> &errors) {
         qDebug() << "SSL errors: " << errors;
     });
 
@@ -492,8 +507,10 @@ void Exiv2Metadata::exiv2Loaded(const Exiv2::ExifData &exiv2Data) {
     if (latDecimal && lonDecimal) {
         setGpsLatitudeDecimal(*latDecimal);
         setGpsLongitudeDecimal(*lonDecimal);
-        // qDebug() << "https://nominatim.openstreetmap.org/reverse?lat=" << *latDecimal << "&lon=" << *lonDecimal;
         loadAddress(*latDecimal, *lonDecimal);
+    } else {
+        setGpsLatitudeDecimal(92);
+        setGpsLongitudeDecimal(182);
     }
 
 

@@ -83,12 +83,12 @@ ScrollView {
                         let window = fileViewerArchive.createObject(null, {filePath: root.filePath})
                         window.show()
                     }
-                    if (fmd.isPlainText){
-                        let window = fileViewerText.createObject(null, {filePath: root.filePath})
+                    else if (fmd.isImage){
+                        let window = demoImage.createObject(null, {filePath: root.filePath})
                         window.show()
                     }
-                    if (fmd.isImage){
-                        let window = demoImage.createObject(null, {filePath: root.filePath})
+                    else if (fmd.isPlainText){
+                        let window = fileViewerText.createObject(null, {filePath: root.filePath})
                         window.show()
                     }
 

@@ -22,7 +22,7 @@
 
 
 
-CpuMonitor::CpuMonitor(QObject *parent): QObject(parent) {}
+CpuMonitor::CpuMonitor(QObject *parent): QObject(parent), m_regexpSeparator{"\\s+"} {}
 
 void CpuMonitor::start() {
     m_timer = new QTimer(this);
@@ -197,19 +197,19 @@ double CpuMonitor::calculateLinuxMemoryUsage() {
     uint64_t totalMem = 0;
     uint64_t availMem = 0;
 
-    while (!in.atEnd()) {
-        QString line = in.readLine();
+    QString line;
+    while (in.readLineInto(&line)) {
         if (line.startsWith("MemTotal:")) {
-            totalMem = line.split(QRegularExpression("\\s+")).at(1).toULongLong();
+            totalMem = line.split(m_regexpSeparator).at(1).toULongLong();
         } else if (line.startsWith("MemAvailable:")) {
-            availMem = line.split(QRegularExpression("\\s+")).at(1).toULongLong();
+            availMem = line.split(m_regexpSeparator).at(1).toULongLong();
             break; // Found what we need
         }
     }
 
     if (totalMem == 0) return 0.0;
-    uint64_t usedMem = totalMem - availMem;
-    return (double)usedMem / totalMem * 100.0;
+    const uint64_t usedMem = totalMem - availMem;
+    return static_cast<double>(usedMem) / static_cast<double>(totalMem) * 100.0;
 }
 CpuTicks CpuMonitor::getLinuxCpuTicks() {
     QFile file("/proc/stat");
@@ -217,7 +217,7 @@ CpuTicks CpuMonitor::getLinuxCpuTicks() {
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         const QString line = in.readLine(); // Reads the first line starting with "cpu "
-        QStringList values = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+        QStringList values = line.split(m_regexpSeparator, Qt::SkipEmptyParts);
         if (values.size() >= 5) {
             ticks.user = values[1].toULongLong();
             ticks.nice = values[2].toULongLong();
@@ -229,18 +229,18 @@ CpuTicks CpuMonitor::getLinuxCpuTicks() {
 }
 
 double CpuMonitor::calculateLinuxCpuUsage() {
-    CpuTicks t1 = getLinuxCpuTicks();
+    const CpuTicks t1 = getLinuxCpuTicks();
     QThread::msleep(500); // Wait 500ms for a valid delta sample
-    CpuTicks t2 = getLinuxCpuTicks();
+    const CpuTicks t2 = getLinuxCpuTicks();
 
-    unsigned long long active1 = t1.user + t1.nice + t1.system;
-    unsigned long long total1 = active1 + t1.idle;
+    const unsigned long long active1 = t1.user + t1.nice + t1.system;
+    const unsigned long long total1 = active1 + t1.idle;
 
-    unsigned long long active2 = t2.user + t2.nice + t2.system;
-    unsigned long long total2 = active2 + t2.idle;
+    const unsigned long long active2 = t2.user + t2.nice + t2.system;
+    const unsigned long long total2 = active2 + t2.idle;
 
     if (total2 == total1) return 0.0;
-    return static_cast<double>(active2 - active1) / (total2 - total1) * 100.0;
+    return static_cast<double>(active2 - active1) / static_cast<double>(total2 - total1) * 100.0;
 }
 #endif
 

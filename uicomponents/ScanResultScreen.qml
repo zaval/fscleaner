@@ -14,7 +14,6 @@ Item {
     property alias fsModel: fileSystemModel
 
     StackView.onActivated: {
-        console.log("StackView activated: ", root.dbPath)
         fileSystemModel.initialize(root.dbPath)
     }
 
@@ -31,7 +30,7 @@ Item {
                 spacing: 10
                 Layout.fillWidth: true
                 ToolButton {
-                    icon.name: "go-previous"
+                    icon.name: "arrow-back"
                     onClicked: {
                         root.stackView.popToItem(selectFolderScreen)
                     }

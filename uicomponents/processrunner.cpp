@@ -34,6 +34,7 @@ ProcessRunner::ProcessRunner(QObject *parent)
 
     connect(m_process, &QProcess::finished, this, [&](const int exitCode, const QProcess::ExitStatus exitStatus) {
         qDebug() << "Process finished with exit code:" << exitCode << "and status:" << exitStatus;
+        m_cpuThread.quit();
         emit processFinished();
         m_isRunning = false;
         emit isRunningChanged();
