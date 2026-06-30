@@ -8,30 +8,41 @@ qt_add_library(uicomponents STATIC)
 #        PROPERTIES QT_DISCARD_FILE_CONTENTS TRUE
 #)
 
+file(GLOB QML_FILES
+        CONFIGURE_DEPENDS
+        RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+        "*.qml"
+)
+
+set_source_files_properties(${QML_FILES}
+        PROPERTIES QT_DISCARD_FILE_CONTENTS TRUE
+)
+
 qt_add_qml_module(uicomponents
     URI uicomponents
     VERSION 1.0
     QML_FILES
-        Card.qml
-        LeftMenu.qml
-        LeftMenuItem.qml
-        LeftMenuItemDelegate.qml
-        MainWindow.qml
-        SettingsWindow.qml
-        FolderSettingsRowDelegate.qml
-        SelectFolderScreen.qml
-        DashboardWindow.qml
-        ScanScreen.qml
-        ScanResultScreen.qml
-        FileProperties.qml
-        MetadataRow.qml
-        HashMetadataRow.qml
-        DeleteScanResultConfirmation.qml
-        FileViewerArchive.qml
-        SearchTextField.qml
-        FileViewerText.qml
-        FullTextArea.qml
-        FileViewerImage.qml
+        ${QML_FILES}
+#        Card.qml
+#        LeftMenu.qml
+#        LeftMenuItem.qml
+#        LeftMenuItemDelegate.qml
+#        MainWindow.qml
+#        SettingsWindow.qml
+#        FolderSettingsRowDelegate.qml
+#        SelectFolderScreen.qml
+#        DashboardWindow.qml
+#        ScanScreen.qml
+#        ScanResultScreen.qml
+#        FileProperties.qml
+#        MetadataRow.qml
+#        HashMetadataRow.qml
+#        DeleteScanResultConfirmation.qml
+#        FileViewerArchive.qml
+#        SearchTextField.qml
+#        FileViewerText.qml
+#        FullTextArea.qml
+#        FileViewerImage.qml
     SOURCES
         messagebox.cpp
         messagebox.h
@@ -58,7 +69,10 @@ qt_add_qml_module(uicomponents
         exiv2metadata.cpp
         exiv2metadata.h
     DEPENDENCIES
-            QtQuick
+        QtQuick
+        QtQuick.Controls.Basic
+        QtQuick.Layouts
+
 )
 target_include_directories(uicomponents PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/../generated" "${CMAKE_CURRENT_SOURCE_DIR}/..")
 

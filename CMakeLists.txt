@@ -147,6 +147,10 @@ set_source_files_properties(AppSettings.qml PROPERTIES
 #    list(APPEND PLATFORM_QML_FILES "+linux/SettingsAddFolderDialog.qml")
 #endif ()
 
+set_source_files_properties(Main.qml AppSettings.qml
+        PROPERTIES QT_DISCARD_FILE_CONTENTS TRUE
+)
+
 qt_add_qml_module(appfsCleaner
     URI fsCleaner
     VERSION 1.0
