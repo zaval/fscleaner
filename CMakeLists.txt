@@ -39,6 +39,8 @@ set(APPLE_SUPPRESS_X11_WARNING ON)
 find_package(ECM 6.13.0 NO_MODULE)
 if(NOT ECM_FOUND)
 
+    message(STATUS "ECM not found, downloading from git")
+
     FetchContent_Declare(
             ECM
             GIT_REPOSITORY https://invent.kde.org/frameworks/extra-cmake-modules.git
@@ -74,7 +76,6 @@ if(NOT ECM_FOUND)
     list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_BINARY_DIR}/ecm_install")
     list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR}/ecm_install/ECM/modules)
 
-
     unset(CMAKE_INSTALL_PREFIX)
 else ()
 #    set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -88,6 +89,7 @@ endif ()
 
 find_package(KF6Archive 6.13.0 QUIET)
 if(NOT KF6Archive_FOUND)
+    message(STATUS "KF6Archive not found, downloading from git")
 
     set(KARCHIVE_PATCH_FILE "${CMAKE_CURRENT_SOURCE_DIR}/patches/karchive.patch")
 
@@ -96,18 +98,19 @@ if(NOT KF6Archive_FOUND)
             GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
             GIT_TAG v6.13.0
             PATCH_COMMAND git apply "${KARCHIVE_PATCH_FILE}" || true
-            CMAKE_ARGS
-                -DECM_DIR=${CMAKE_CURRENT_BINARY_DIR}/ecm_install
-                -DBUILD_TESTING=OFF
-                -DBUILD_DOC=OFF
-    #            -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-                -DCMAKE_MACOSX_RPATH=ON
-                -DCMAKE_INSTALL_NAME_DIR=@rpath
-                -DCMAKE_POLICY_DEFAULT_CMP0175=OLD
-
     )
+    block(PROPAGATE)
+        set(ECM_DIR ${CMAKE_CURRENT_BINARY_DIR}/ecm_install CACHE INTERNAL "")
+        set(BUILD_TESTING OFF CACHE INTERNAL "")
+        set(BUILD_DOC OFF CACHE INTERNAL "")
+        set(CMAKE_MACOSX_RPATH ON CACHE INTERNAL "")
+        set(CMAKE_INSTALL_NAME_DIR @rpath CACHE INTERNAL "")
+        set(CMAKE_POLICY_DEFAULT_CMP0175 OLD CACHE INTERNAL "")
 
-    FetchContent_MakeAvailable(KArchive)
+        FetchContent_MakeAvailable(KArchive)
+    endblock()
+
+
 endif ()
 
 
@@ -141,11 +144,6 @@ target_include_directories(appfsCleaner PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/gen
 set_source_files_properties(AppSettings.qml PROPERTIES
         QT_QML_SINGLETON_TYPE TRUE
 )
-
-#set(PLATFORM_QML_FILES)
-#if(UNIX AND NOT APPLE)
-#    list(APPEND PLATFORM_QML_FILES "+linux/SettingsAddFolderDialog.qml")
-#endif ()
 
 set_source_files_properties(Main.qml AppSettings.qml
         PROPERTIES QT_DISCARD_FILE_CONTENTS TRUE
@@ -191,14 +189,13 @@ qt_add_resources(
 )
 
 set(
-        ICONS
+    ICONS
         resources/icons/16-apps-me.zaval.fscleaner.png
         resources/icons/32-apps-me.zaval.fscleaner.png
         resources/icons/64-apps-me.zaval.fscleaner.png
         resources/icons/128-apps-me.zaval.fscleaner.png
         resources/icons/256-apps-me.zaval.fscleaner.png
         resources/icons/512-apps-me.zaval.fscleaner.png
-#        resources/icons/1024-apps-me.zaval.fscleaner.png
 )
 if (APPLE OR WINDOWS)
     list(APPEND ICONS resources/icons/1024-apps-me.zaval.fscleaner.png)
@@ -281,7 +278,8 @@ if (APPLE)
 
     set(deploy_tool_options_arg -qmldir=${CMAKE_SOURCE_DIR})
     if (DEFINED CMAKE_CODESIGN_IDENTITY)
-        set(deploy_tool_options_arg "${deploy_tool_options_arg} -codesign=${CMAKE_CODESIGN_IDENTITY}")
+#        set(deploy_tool_options_arg "${deploy_tool_options_arg} -codesign=${CMAKE_CODESIGN_IDENTITY}")
+        list(APPEND deploy_tool_options_arg "-codesign=${CMAKE_CODESIGN_IDENTITY}")
     endif ()
     set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/app)
 endif()
@@ -304,8 +302,12 @@ install(TARGETS appfsCleaner
 #endif()
 
 if(APPLE)
-    set(BUNDLE_NAME $<TARGET_FILE_NAME:appfsCleaner>)
+#    set(BUNDLE_NAME $<TARGET_FILE_NAME:appfsCleaner>)
+    set(BUNDLE_NAME "appfsCleaner")
     install(TARGETS KF6Archive
+            LIBRARY DESTINATION ${BUNDLE_NAME}.app/Contents/Frameworks
+    )
+    install(TARGETS exiv2
             LIBRARY DESTINATION ${BUNDLE_NAME}.app/Contents/Frameworks
     )
 else()
@@ -357,12 +359,12 @@ endif()
 # endif()
 
 if(APPLE)
-qt_generate_deploy_qml_app_script(
+    qt_generate_deploy_app_script(
         TARGET appfsCleaner
         OUTPUT_SCRIPT deploy_script
         NO_UNSUPPORTED_PLATFORM_ERROR
-        DEPLOY_USER_QML_MODULES_ON_UNSUPPORTED_PLATFORM
-        MACOS_BUNDLE_POST_BUILD
+#        DEPLOY_USER_QML_MODULES_ON_UNSUPPORTED_PLATFORM
+#        MACOS_BUNDLE_POST_BUILD
         DEPLOY_TOOL_OPTIONS ${deploy_tool_options_arg}
         PRE_INCLUDE_REGEXES
             ${LIBAV_DEPS_REGEXES}
@@ -380,7 +382,9 @@ endif ()
 set(CPACK_PACKAGE_NAME fscleaner)
 if(APPLE)
     set(CPACK_GENERATOR DragNDrop)
-    set(CPACK_DMG_VOLUME_NAME ${CPACK_PACKAGE_NAME}-${VERSION})
+    set(CPACK_DMG_VOLUME_NAME ${CPACK_PACKAGE_NAME}-${PROJECT_VERSION})
+    set(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/misc/custom_dmg.DS_Store")
+    set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/misc/background.png")
 #    set(CPACK_DMG_DS_STORE_SETUP_SCRIPT ${CMAKE_BINARY_DIR}/misc/setup_dmg.scpt)
 #    set(CPACK_DMG_BACKGROUND_IMAGE ${CMAKE_SOURCE_DIR}/misc/background.png)
 #    configure_file(${PROJECT_SOURCE_DIR}/misc/setup_dmg.scpt.in ${CMAKE_BINARY_DIR}/misc/setup_dmg.scpt)
@@ -415,6 +419,24 @@ endforeach()
 # Remove lib directories (if you don't need them in the final package)
 file(GLOB LIB_DIRS \"\${INSTALL_DIR}/lib*\")
 foreach(dir \${LIB_DIRS})
+ if(EXISTS \"\${dir}\")
+     message(STATUS \"Removing: \${dir}\")
+     file(REMOVE_RECURSE \"\${dir}\")
+ endif()
+endforeach()
+
+# Remove include directories (if you don't need them in the final package)
+file(GLOB INCLUDE_DIRS \"\${INSTALL_DIR}/include*\")
+foreach(dir \${INCLUDE_DIRS})
+ if(EXISTS \"\${dir}\")
+     message(STATUS \"Removing: \${dir}\")
+     file(REMOVE_RECURSE \"\${dir}\")
+ endif()
+endforeach()
+
+# Remove bin directories (if you don't need them in the final package)
+file(GLOB BIN_DIRS \"\${INSTALL_DIR}/bin*\")
+foreach(dir \${BIN_DIRS})
  if(EXISTS \"\${dir}\")
      message(STATUS \"Removing: \${dir}\")
      file(REMOVE_RECURSE \"\${dir}\")
