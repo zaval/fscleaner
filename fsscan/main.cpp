@@ -1,8 +1,21 @@
 #include <unordered_set>
 #include <vector>
 #include <filesystem>
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#define open _open
+#define close _close
+#define fstat _fstat
+#define stat _stat
+#define O_NOFOLLOW _O_NOINHERIT
+#define isatty _isatty
+#define STDOUT_FILENO 1
+#define PATH_MAX 260
+#else
 #include <unistd.h>
 #include <sys/fcntl.h>
+#endif
 #include <sys/stat.h>
 
 #include "argumentparser.h"

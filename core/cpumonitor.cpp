@@ -148,12 +148,12 @@ double CpuMonitor::calculateMacOsMemoryUsage() {
 
 
 #ifdef Q_OS_WIN
-double CpuMonitor::double calculateWindowsMemoryUsage() {
+double CpuMonitor::calculateWindowsMemoryUsage() {
     MEMORYSTATUSEX memInfo;
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
 
     if (GlobalMemoryStatusEx(&memInfo)) {
-        return (double)memInfo.dwMemoryLoad; // Directly returns the % of physical memory in use
+        return static_cast<double>(memInfo.dwMemoryLoad); // Directly returns the % of physical memory in use
     }
     return 0.0;
 }
@@ -183,7 +183,7 @@ double CpuMonitor::calculateWindowsCpuUsage() {
     uint64_t system = kernel + user;
 
     if (system == 0) return 0.0;
-    return (double)(system - idle) / system * 100.0;
+    return static_cast<double>(system - idle) / system * 100.0;
 }
 #endif
 

@@ -1,0 +1,14 @@
+{
+  "dependencies": [
+    "bzip2",
+    "ffmpeg",
+    "liblzma",
+    "openssl",
+    "pkgconf",
+    "python3",
+    "sqlite3",
+    "zlib",
+    "zstd",
+    "brotli"
+  ]
+}

@@ -1,5 +1,5 @@
-add_library(core
-    SHARED
+qt_add_library(core
+    STATIC
         helper.h
         helper.cpp
         hashcalculator.h

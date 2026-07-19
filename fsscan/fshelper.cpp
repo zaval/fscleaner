@@ -6,14 +6,20 @@
 
 #include <cstring>
 #include <filesystem>
+#ifndef _WIN32
 #include <fstab.h>
+#include <sys/mount.h>
+#endif
 #include <iostream>
 #include <unordered_set>
-#include <sys/mount.h>
 
 
 
 std::vector<std::string> FSHelper::getMountedFolders() {
+
+    #ifdef _WIN32
+        return {};
+    #else
 
     std::unordered_set<std::string> unique_volumes{};
     std::vector<std::string> mounted_folders;
@@ -77,5 +83,6 @@ std::vector<std::string> FSHelper::getMountedFolders() {
 
     return mounted_folders;
     // return {unique_volumes.begin(), unique_volumes.end()};
+    #endif
 
 }

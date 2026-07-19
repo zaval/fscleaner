@@ -92,12 +92,14 @@ if(NOT KF6Archive_FOUND)
     message(STATUS "KF6Archive not found, downloading from git")
 
     set(KARCHIVE_PATCH_FILE "${CMAKE_CURRENT_SOURCE_DIR}/patches/karchive.patch")
+    find_package(Git REQUIRED)
 
     FetchContent_Declare(
             KArchive
             GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
             GIT_TAG v6.13.0
-            PATCH_COMMAND git apply "${KARCHIVE_PATCH_FILE}" || true
+            PATCH_COMMAND ${GIT_EXECUTABLE} reset --hard HEAD
+                COMMAND ${GIT_EXECUTABLE} apply --ignore-space-change --ignore-whitespace "${KARCHIVE_PATCH_FILE}" || cd .
     )
     block(PROPAGATE)
         set(ECM_DIR ${CMAKE_CURRENT_BINARY_DIR}/ecm_install CACHE INTERNAL "")
