@@ -94,14 +94,15 @@ if(NOT KF6Archive_FOUND)
     set(KARCHIVE_PATCH_FILE "${CMAKE_CURRENT_SOURCE_DIR}/patches/karchive.patch")
     find_package(Git REQUIRED)
 
-    FetchContent_Declare(
-            KArchive
-            GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
-            GIT_TAG v6.13.0
-            PATCH_COMMAND ${GIT_EXECUTABLE} reset --hard HEAD
-                COMMAND ${GIT_EXECUTABLE} apply --ignore-space-change --ignore-whitespace "${KARCHIVE_PATCH_FILE}" || cd .
-    )
     block(PROPAGATE)
+        FetchContent_Declare(
+                KArchive
+                GIT_REPOSITORY https://invent.kde.org/frameworks/karchive.git
+                GIT_TAG v6.13.0
+                PATCH_COMMAND ${GIT_EXECUTABLE} reset --hard HEAD
+                    COMMAND ${GIT_EXECUTABLE} apply --ignore-space-change --ignore-whitespace "${KARCHIVE_PATCH_FILE}" || cd .
+        )
+    
         set(ECM_DIR ${CMAKE_CURRENT_BINARY_DIR}/ecm_install CACHE INTERNAL "")
         set(BUILD_TESTING OFF CACHE INTERNAL "")
         set(BUILD_DOC OFF CACHE INTERNAL "")
@@ -134,12 +135,19 @@ if(NOT exiv2_FOUND)
 
 endif()
 
+set(ADDITIONAL_RESOURCES "")
+
+if(WIN32)
+    set(ADDITIONAL_RESOURCES "${CMAKE_CURRENT_SOURCE_DIR}/resources.rc")
+endif()
+
 qt_standard_project_setup(REQUIRES 6.8)
 
 # executable
 
 qt_add_executable(appfsCleaner
     main.cpp
+    ${ADDITIONAL_RESOURCES}
 )
 target_include_directories(appfsCleaner PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
@@ -199,7 +207,7 @@ set(
         resources/icons/256-apps-me.zaval.fscleaner.png
         resources/icons/512-apps-me.zaval.fscleaner.png
 )
-if (APPLE OR WINDOWS)
+if (APPLE)
     list(APPEND ICONS resources/icons/1024-apps-me.zaval.fscleaner.png)
 endif()
 
@@ -298,6 +306,7 @@ install(TARGETS appfsCleaner
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+
 #if(UNIX AND NOT APPLE)
     include(ECMInstallIcons)
     ecm_install_icons( ICONS ${ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons )
@@ -315,6 +324,9 @@ if(APPLE)
 else()
     if (DEFINED KF6Archive)
     install(TARGETS KF6Archive
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+    install(TARGETS exiv2
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     )
     endif ()

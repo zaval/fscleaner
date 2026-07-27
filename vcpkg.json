@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "brotli",
     "bzip2",
     "ffmpeg",
     "liblzma",
@@ -8,7 +9,6 @@
     "python3",
     "sqlite3",
     "zlib",
-    "zstd",
-    "brotli"
+    "zstd"
   ]
 }
